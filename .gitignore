@@ -16,3 +16,6 @@ data/uploads/
 # 绯荤粺鏂囦欢
 .DS_Store
 Thumbs.db
+
+# 笔试题原件（不随仓库公开）
+招聘笔试题.html

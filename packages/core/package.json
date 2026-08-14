@@ -1,0 +1,20 @@
+{
+  "name": "@xiaosu/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@huggingface/transformers": "^4.2.0",
+    "mammoth": "^1.12.1",
+    "onnxruntime-node": "^1.27.0",
+    "pdf-parse": "^2.4.5",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0"
+  }
+}
