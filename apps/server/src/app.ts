@@ -43,12 +43,21 @@ export function buildApp(deps: BuildAppDeps): Fastify.FastifyInstance {
   // 生产模式：托管 Web 构建产物 + SPA 路由回退
   if (existsSync(deps.webDist)) {
     const indexHtml = join(deps.webDist, 'index.html');
-    app.register(fastifyStatic, { root: deps.webDist, index: 'index.html' });
+    app.register(fastifyStatic, {
+      root: deps.webDist,
+      index: 'index.html',
+      maxAge: 0,
+      // index.html 不缓存：保证前端发版后刷新即生效（JS 资源本身带内容哈希）
+      setHeaders: (res, path) => {
+        if (path.endsWith('.html')) res.setHeader('Cache-Control', 'no-store');
+      },
+    });
     app.setNotFoundHandler((req, reply) => {
       if (req.url.startsWith('/api/')) {
         return reply.code(404).send({ error: 'Not Found' });
       }
       try {
+        reply.header('Cache-Control', 'no-store');
         return reply.type('text/html; charset=utf-8').send(readFileSync(indexHtml));
       } catch {
         return reply.code(404).send({ error: '前端未构建' });
