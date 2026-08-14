@@ -3,15 +3,22 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-if ! command -v pnpm >/dev/null 2>&1; then
-  echo "[dev] 未找到 pnpm，请先执行: npm install -g pnpm" >&2
+# 启动失败时：打印原因；若在交互窗口里运行，停留等待按键（避免闪退看不到报错）
+die() {
+  echo "[dev] 启动失败: $*" >&2
+  if [ -t 0 ]; then
+    echo "[dev] 按回车关闭窗口..."
+    read -r _ || true
+  fi
   exit 1
+}
+
+if ! command -v pnpm >/dev/null 2>&1; then
+  die "未找到 pnpm，请先执行: npm install -g pnpm"
 fi
 
 if netstat -ano 2>/dev/null | grep -q ':3000 .*LISTENING'; then
-  echo "[dev] 端口 3000 已被占用 —— 小苏似乎已经在运行。" >&2
-  echo "[dev] 如需重启：先按 Ctrl+C 停止旧窗口，再重新双击启动。" >&2
-  exit 1
+  die "端口 3000 已被占用 —— 小苏似乎已经在运行。如需重启：先按 Ctrl+C 停止旧窗口"
 fi
 
 if [ ! -f .env ]; then
