@@ -37,6 +37,7 @@
     { "id": 19, "question": "员工 005 是什么职级？", "contains": ["P5", "市场专员"], "expectTool": "employee_info", "expectCite": false, "source": "工具-员工" },
     { "id": 20, "question": "学习基金怎么用？", "contains": ["1000"], "expectTool": null, "expectCite": true, "source": "知识库" },
     { "id": 21, "question": "电脑坏了找谁？", "contains": ["8002", "IT"], "expectTool": null, "expectCite": true, "source": "知识库" },
-    { "id": 22, "question": "年假能顺延到什么时候？", "contains": ["3 月 31 日"], "expectTool": null, "expectCite": true, "source": "知识库" }
+    { "id": 22, "question": "年假能顺延到什么时候？", "contains": ["3 月 31 日"], "expectTool": null, "expectCite": true, "source": "知识库" },
+    { "id": 23, "question": "张三是谁？", "contains": ["研发部", "高级后端工程师"], "expectTool": "employee_info", "expectCite": false, "source": "工具-按姓名查员工" }
   ]
 }

@@ -122,4 +122,16 @@ describe('工具执行器', () => {
     expect(data.records.length).toBeGreaterThan(0);
     expect(data.records.every((r) => r.emp_id === '001')).toBe(true);
   });
+
+  it('employee_info 支持按姓名查询（"张三是谁"场景）', async () => {
+    const mock = generateMockData(new Date('2026-08-10'));
+    const registry = buildToolRegistry(mock, () => new Date('2026-08-10T09:00:00'));
+    const byName = await registry.execute('employee_info', { name: '张三' });
+    expect(byName.ok).toBe(true);
+    expect((byName.data as { id: string; dept: string }).id).toBe('001');
+    const byId = await registry.execute('employee_info', { id: '001' });
+    expect(byId.ok).toBe(true);
+    const missing = await registry.execute('employee_info', { name: '不存在的人' });
+    expect(missing.ok).toBe(false);
+  });
 });

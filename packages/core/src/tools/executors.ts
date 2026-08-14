@@ -6,7 +6,14 @@ import type { ToolExecResult } from './types.ts';
 // 各工具的 zod 参数校验 + 执行逻辑
 // ---------------------------------------------------------------------------
 
-const EmployeeIdSchema = z.object({ id: z.string().regex(/^\d{3}$/, '员工编号为 3 位数字，如 001') });
+const EmployeeQuerySchema = z
+  .object({
+    id: z.string().regex(/^\d{3}$/, '员工编号为 3 位数字，如 001').optional(),
+    name: z.string().min(1).max(20).optional(),
+  })
+  .refine((v) => v.id !== undefined || v.name !== undefined, {
+    message: '至少提供员工编号 id 或姓名 name',
+  });
 
 const DateRangeSchema = z.object({
   emp_id: z.string().regex(/^\d{3}$/).optional(),
@@ -16,12 +23,22 @@ const DateRangeSchema = z.object({
 
 const CalcSchema = z.object({ expression: z.string().min(1).max(200) });
 
+/** 员工查询：支持按编号或姓名（姓名支持精确/模糊匹配）。 */
 export function executeEmployeeInfo(data: MockData, args: unknown): ToolExecResult {
-  const parsed = EmployeeIdSchema.safeParse(args);
+  const parsed = EmployeeQuerySchema.safeParse(args);
   if (!parsed.success) return { ok: false, error: `参数错误: ${parsed.error.issues[0]?.message ?? '无效参数'}` };
-  const emp = data.employees.find((e) => e.id === parsed.data.id);
-  if (!emp) return { ok: false, error: `未找到员工 ${parsed.data.id}` };
-  return { ok: true, data: emp };
+  const { id, name } = parsed.data;
+  if (id) {
+    const emp = data.employees.find((e) => e.id === id);
+    if (!emp) return { ok: false, error: `未找到员工编号 ${id}` };
+    return { ok: true, data: emp };
+  }
+  const exact = data.employees.filter((e) => e.name === name);
+  if (exact.length === 1) return { ok: true, data: exact[0] };
+  if (exact.length > 1) return { ok: true, data: { candidates: exact } };
+  const fuzzy = data.employees.filter((e) => e.name.includes(name!));
+  if (fuzzy.length === 0) return { ok: false, error: `未找到名为「${name}」的员工` };
+  return { ok: true, data: { candidates: fuzzy } };
 }
 
 export function executeAttendance(data: MockData, args: unknown, now: Date): ToolExecResult {

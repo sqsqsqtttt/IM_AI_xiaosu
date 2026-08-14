@@ -12,11 +12,13 @@ import type { ToolDefinition } from '../types.ts';
 const DEFS: ToolDefinition[] = [
   {
     name: 'employee_info',
-    description: '按员工编号查询员工基本信息（部门、职级、职位、入职日期）',
+    description: '按员工编号或姓名查询员工基本信息（部门、职级、职位、入职日期）；问题中提到员工姓名（如"张三是谁"）时用 name 参数查询',
     parameters: {
       type: 'object',
-      properties: { id: { type: 'string', description: '员工编号，3 位数字，如 001' } },
-      required: ['id'],
+      properties: {
+        id: { type: 'string', description: '员工编号，3 位数字，如 001（与 name 二选一）' },
+        name: { type: 'string', description: '员工姓名，如 张三（与 id 二选一）' },
+      },
     },
   },
   {
