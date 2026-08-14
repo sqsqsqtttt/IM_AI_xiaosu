@@ -1,4 +1,4 @@
-import { DWClient, EventAck, type DWClientDownStream } from 'dingtalk-stream';
+import { DWClient, EventAck, TOPIC_ROBOT, type DWClientDownStream } from 'dingtalk-stream';
 
 export interface BotLogger {
   info(obj: unknown, msg?: string): void;
@@ -61,15 +61,28 @@ function remember(msgId: string): boolean {
 }
 
 export function createDingtalkBot(opts: DingtalkBotOptions): DingtalkBot {
-  const client = new DWClient({ clientId: opts.appKey, clientSecret: opts.appSecret });
+  // 同时订阅 EVENT（通配 + 机器人主题）与 CALLBACK（机器人消息可能以回调类型推送）
+  const client = new DWClient({
+    clientId: opts.appKey,
+    clientSecret: opts.appSecret,
+    subscriptions: [
+      { type: 'EVENT', topic: '*' },
+      { type: 'EVENT', topic: TOPIC_ROBOT },
+      { type: 'CALLBACK', topic: TOPIC_ROBOT },
+    ],
+  } as unknown as ConstructorParameters<typeof DWClient>[0]);
 
-  // 观测网关下行系统消息（连接诊断；KEEPALIVE 心跳除外）
+  // 全量下行消息观测（连接与消息排障；心跳 ping/KEEPALIVE 除外）
   const origOnDownStream = client.onDownStream.bind(client);
   client.onDownStream = (data: string): void => {
     try {
       const msg = JSON.parse(data) as { type?: string; headers?: { topic?: string } };
-      if (msg.type === 'SYSTEM' && msg.headers?.topic !== 'KEEPALIVE') {
-        opts.logger.info({ type: msg.type, topic: msg.headers?.topic }, '钉钉下行系统消息');
+      const topic = msg.headers?.topic ?? '';
+      if (msg.type !== 'SYSTEM' || (topic !== 'KEEPALIVE' && topic !== 'ping')) {
+        opts.logger.info(
+          { type: msg.type, topic, data: String(data).slice(0, 200) },
+          '钉钉下行消息',
+        );
       }
     } catch {
       // 非 JSON 忽略
@@ -77,26 +90,35 @@ export function createDingtalkBot(opts: DingtalkBotOptions): DingtalkBot {
     origOnDownStream(data);
   };
 
+  // EVENT 通道（部分网关以事件形式推送机器人消息）
   client.registerAllEventListener((event: DWClientDownStream) => {
-    // 事件先 ACK 再异步处理，避免钉钉 60s 重投
-    void handleEvent(event).catch((e) =>
-      opts.logger.error({ err: String(e) }, '钉钉事件处理失败'),
+    const topic = event.headers.topic ?? '';
+    const eventType = event.headers.eventType ?? '';
+    if (!topic.includes('im/bot/messages') && eventType !== 'im.message.receive_v1') {
+      opts.logger.info({ topic, eventType }, '钉钉事件（非机器人消息，忽略）');
+      return { status: EventAck.SUCCESS };
+    }
+    // 先 ACK 再异步处理，避免钉钉 60s 重投
+    void processRobotData(event.data).catch((e) =>
+      opts.logger.error({ err: String(e) }, '钉钉机器人消息处理失败'),
     );
     return { status: EventAck.SUCCESS };
   });
 
-  async function handleEvent(event: DWClientDownStream): Promise<void> {
-    const topic = event.headers.topic ?? '';
-    const eventType = event.headers.eventType ?? '';
-    // 记录每条事件（低流量场景，便于远端排障）
-    opts.logger.info({ topic, eventType, data: String(event.data).slice(0, 120) }, '钉钉事件');
-    if (!topic.includes('im/bot/messages') && eventType !== 'im.message.receive_v1') return;
+  // CALLBACK 通道（官方机器人消息的推送方式）
+  client.registerCallbackListener(TOPIC_ROBOT, (event: DWClientDownStream) => {
+    void processRobotData(event.data).catch((e) =>
+      opts.logger.error({ err: String(e) }, '钉钉机器人回调处理失败'),
+    );
+  });
 
+  /** 解析并处理一条机器人消息（EVENT 与 CALLBACK 两种通道共用）。 */
+  async function processRobotData(data: string): Promise<void> {
     let raw: unknown;
     try {
-      raw = JSON.parse(event.data);
+      raw = JSON.parse(data);
     } catch {
-      opts.logger.warn({ data: String(event.data).slice(0, 200) }, '钉钉消息不是合法 JSON');
+      opts.logger.warn({ data: String(data).slice(0, 200) }, '钉钉消息不是合法 JSON');
       return;
     }
     const parsed = (raw as { data?: unknown }).data ?? raw;
@@ -112,7 +134,10 @@ export function createDingtalkBot(opts: DingtalkBotOptions): DingtalkBot {
       sessionWebhookExpiredTime: number;
     }>;
 
-    if (m.msgtype !== 'text' || !m.text?.content) return;
+    if (m.msgtype !== 'text' || !m.text?.content) {
+      opts.logger.info({ msgtype: m.msgtype }, '非文本机器人消息，忽略');
+      return;
+    }
     const msg: BotMessage = {
       userId: m.senderStaffId ?? m.senderId ?? 'unknown',
       conversationId: m.conversationId ?? '',
@@ -126,7 +151,10 @@ export function createDingtalkBot(opts: DingtalkBotOptions): DingtalkBot {
       opts.logger.warn({}, '钉钉消息缺少 conversationId，忽略');
       return;
     }
-    if (remember(msg.msgId)) return;
+    if (remember(msg.msgId)) {
+      opts.logger.info({ msgId: msg.msgId }, '重复消息，跳过');
+      return;
+    }
     await handleMessage(msg);
   }
 
