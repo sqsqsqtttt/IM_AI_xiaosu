@@ -5,9 +5,9 @@ import type { Citation, ToolCallRecord } from '../types.ts';
 import Markdown from '../components/Markdown.tsx';
 import Citations from '../components/Citations.tsx';
 
-/** 打字机节奏：每个 tick 吐出 CHARS_PER_TICK 个字（越小越慢）。 */
-const CHARS_PER_TICK = 1;
-const TICK_MS = 200;
+/** 打字机节奏：每个 tick 吐出 CHARS_PER_TICK 个字（可调）。 */
+const CHARS_PER_TICK = 2;
+const TICK_MS = 60;
 
 interface UiMessage {
   id: number;
