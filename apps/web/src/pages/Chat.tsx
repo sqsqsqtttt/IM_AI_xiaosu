@@ -5,6 +5,10 @@ import type { Citation, ToolCallRecord } from '../types.ts';
 import Markdown from '../components/Markdown.tsx';
 import Citations from '../components/Citations.tsx';
 
+/** 打字机节奏：每个 tick 吐出 CHARS_PER_TICK 个字（越小越慢）。 */
+const CHARS_PER_TICK = 1;
+const TICK_MS = 75;
+
 interface UiMessage {
   id: number;
   role: 'user' | 'assistant';
@@ -75,7 +79,7 @@ export default function Chat() {
       onDelta: (t) => {
         pending += t;
         if (timer === null) {
-          timer = window.setInterval(() => flush(2), 55);
+          timer = window.setInterval(() => flush(CHARS_PER_TICK), TICK_MS);
         }
       },
       onDone: (data) => {
