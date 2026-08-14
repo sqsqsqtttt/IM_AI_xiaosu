@@ -7,7 +7,7 @@ import Citations from '../components/Citations.tsx';
 
 /** 打字机节奏：每个 tick 吐出 CHARS_PER_TICK 个字（越小越慢）。 */
 const CHARS_PER_TICK = 1;
-const TICK_MS = 75;
+const TICK_MS = 200;
 
 interface UiMessage {
   id: number;
