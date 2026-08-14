@@ -48,8 +48,8 @@ export function buildApp(deps: BuildAppDeps): Fastify.FastifyInstance {
       index: 'index.html',
       maxAge: 0,
       // index.html 不缓存：保证前端发版后刷新即生效（JS 资源本身带内容哈希）
-      setHeaders: (res, path) => {
-        if (path.endsWith('.html')) res.setHeader('Cache-Control', 'no-store');
+      setHeaders: (reply, path) => {
+        if (path.endsWith('.html')) reply.header('Cache-Control', 'no-store');
       },
     });
     app.setNotFoundHandler((req, reply) => {
