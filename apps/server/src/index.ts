@@ -44,6 +44,7 @@ async function boot(logger: Logger): Promise<void> {
       baseUrl: config.llm.baseUrl,
       apiKey: config.llm.apiKey,
       model: config.llm.model,
+      extraBody: config.llm.thinking === 'disabled' ? { thinking: { type: 'disabled' } } : undefined,
     }),
     {
       onRetry: (attempt, err) => logger.warn({ attempt, err: err.message }, 'LLM 调用失败，重试中'),

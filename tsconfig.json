@@ -3,5 +3,5 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": ["tests", "scripts", "vitest.config.ts", "apps/server/src/pino-roll.d.ts"]
+  "include": ["tests", "scripts", "evals", "vitest.config.ts", "apps/server/src/pino-roll.d.ts"]
 }

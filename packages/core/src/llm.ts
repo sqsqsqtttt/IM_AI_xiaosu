@@ -22,6 +22,8 @@ export interface DeepSeekOptions {
   baseUrl: string;
   apiKey: string;
   model: string;
+  /** 额外请求体字段（如 DeepSeek 关闭思考模式: {thinking:{type:'disabled'}}）。 */
+  extraBody?: Record<string, unknown>;
 }
 
 export class OpenAiCompatibleProvider implements LlmProvider {
@@ -50,6 +52,7 @@ export class OpenAiCompatibleProvider implements LlmProvider {
       messages: this.toOpenAiMessages(req.messages),
       temperature: req.temperature ?? 0.1,
       stream,
+      ...(this.opts.extraBody ?? {}),
       ...(req.tools?.length
         ? {
             tools: req.tools.map((t) => ({

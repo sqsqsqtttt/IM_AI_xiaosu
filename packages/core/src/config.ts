@@ -4,6 +4,8 @@ const EnvSchema = z.object({
   LLM_BASE_URL: z.string().default('https://api.deepseek.com'),
   LLM_API_KEY: z.string().default(''),
   LLM_MODEL: z.string().default('deepseek-v4-flash'),
+  /** disabled = 关闭思考模式（更快更省）；default = 跟随官方默认（思考开启，质量更高） */
+  LLM_THINKING: z.enum(['default', 'disabled']).default('default'),
   EMBED_PROVIDER: z.enum(['local', 'remote', 'fake']).default('local'),
   EMBED_MODEL: z.string().default('Xenova/bge-small-zh-v1.5'),
   EMBED_BASE_URL: z.string().default(''),
@@ -22,7 +24,7 @@ const EnvSchema = z.object({
 export type EmbedProviderKind = 'local' | 'remote' | 'fake';
 
 export interface AppConfig {
-  llm: { baseUrl: string; apiKey: string; model: string };
+  llm: { baseUrl: string; apiKey: string; model: string; thinking: 'default' | 'disabled' };
   embed: {
     provider: EmbedProviderKind;
     model: string;
@@ -39,7 +41,7 @@ export interface AppConfig {
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   const e = EnvSchema.parse(env);
   return {
-    llm: { baseUrl: e.LLM_BASE_URL, apiKey: e.LLM_API_KEY, model: e.LLM_MODEL },
+    llm: { baseUrl: e.LLM_BASE_URL, apiKey: e.LLM_API_KEY, model: e.LLM_MODEL, thinking: e.LLM_THINKING },
     embed: {
       provider: e.EMBED_PROVIDER,
       model: e.EMBED_MODEL,
