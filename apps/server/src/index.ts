@@ -68,7 +68,7 @@ async function boot(logger: Logger): Promise<void> {
   if (bot) {
     try {
       await bot.start();
-      logger.info('钉钉机器人 Stream 长连接已建立');
+      logger.info({ debug: bot.getDebug() }, '钉钉机器人 Stream 长连接已建立');
     } catch (e) {
       logger.error({ err: String(e) }, '钉钉机器人连接失败（检查 AppKey/AppSecret 与网络）');
     }
@@ -76,7 +76,11 @@ async function boot(logger: Logger): Promise<void> {
 
   // 心跳：管理后台「设置」页展示 IM 连接状态
   setInterval(() => {
-    if (bot) statusRepo.setBotStatus(bot.isConnected() ? 'connected' : 'disconnected');
+    if (bot) {
+      const debug = bot.getDebug();
+      statusRepo.setBotStatus(bot.isConnected() ? 'connected' : 'disconnected');
+      if (!bot.isConnected()) logger.warn({ debug }, '钉钉长连接状态异常');
+    }
   }, 30_000);
 
   let shuttingDown = false;

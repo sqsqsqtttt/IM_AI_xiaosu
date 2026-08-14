@@ -43,6 +43,8 @@ export interface DingtalkBot {
   stop(): void;
   /** Stream 长连接当前是否在线。 */
   isConnected(): boolean;
+  /** 连接诊断信息（管理后台状态排障用）。 */
+  getDebug(): { connected: boolean; registered: boolean };
 }
 
 /** 最近已处理消息的去重缓存（防止 ACK 丢失后 60s 重投导致重复回答）。 */
@@ -60,6 +62,20 @@ function remember(msgId: string): boolean {
 
 export function createDingtalkBot(opts: DingtalkBotOptions): DingtalkBot {
   const client = new DWClient({ clientId: opts.appKey, clientSecret: opts.appSecret });
+
+  // 观测网关下行系统消息（连接诊断；KEEPALIVE 心跳除外）
+  const origOnDownStream = client.onDownStream.bind(client);
+  client.onDownStream = (data: string): void => {
+    try {
+      const msg = JSON.parse(data) as { type?: string; headers?: { topic?: string } };
+      if (msg.type === 'SYSTEM' && msg.headers?.topic !== 'KEEPALIVE') {
+        opts.logger.info({ type: msg.type, topic: msg.headers?.topic }, '钉钉下行系统消息');
+      }
+    } catch {
+      // 非 JSON 忽略
+    }
+    origOnDownStream(data);
+  };
 
   client.registerAllEventListener((event: DWClientDownStream) => {
     // 事件先 ACK 再异步处理，避免钉钉 60s 重投
@@ -158,7 +174,11 @@ export function createDingtalkBot(opts: DingtalkBotOptions): DingtalkBot {
       client.disconnect();
     },
     isConnected(): boolean {
-      return client.connected && client.registered;
+      // 网关可能不下发 REGISTERED 系统消息（registered 常为 false），以 WebSocket 是否在线为准
+      return client.connected;
+    },
+    getDebug(): { connected: boolean; registered: boolean } {
+      return { connected: client.connected, registered: client.registered };
     },
   };
 }
