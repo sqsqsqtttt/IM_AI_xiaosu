@@ -51,16 +51,22 @@ export async function runAgent(question: string, deps: AgentDeps, opts: RunOptio
     { role: 'user', content: question },
   ];
 
-  // 3. 工具循环：模型自主决定调用哪些工具
+  // 3. 工具循环：模型自主决定调用哪些工具。
+  //    Web 端（提供 onDelta）从第一轮就流式输出；IM 端（无 onDelta）走非流式单次调用，更快。
   const toolRecords: ToolCallRecord[] = [];
-  let res: ChatResult = await deps.llm.chat(
-    { messages, tools: deps.toolDefs, model: deps.llmModel },
-    opts.signal,
-  );
+  const useStream = Boolean(opts.onDelta);
+  let res: ChatResult;
+  let rounds = 0;
+
+  const callLlm = (): Promise<ChatResult> => {
+    const req = { messages, tools: deps.toolDefs, model: deps.llmModel, temperature: 0.1 };
+    return useStream ? deps.llm.chatStream(req, opts.onDelta!, opts.signal) : deps.llm.chat(req, opts.signal);
+  };
+
+  res = await callLlm();
   addUsage(res.usage);
 
-  let rounds = 0;
-  while (res.toolCalls.length > 0 && rounds < MAX_TOOL_ROUNDS) {
+  while (res.toolCalls.length > 0 && rounds < MAX_TOOL_ROUNDS && !res.content.trim()) {
     rounds++;
     messages.push({ role: 'assistant', content: '', toolCalls: res.toolCalls });
     for (const call of res.toolCalls) {
@@ -83,20 +89,19 @@ export async function runAgent(question: string, deps: AgentDeps, opts: RunOptio
         toolCallId: call.id,
       });
     }
-    res = await deps.llm.chat(
-      { messages, tools: deps.toolDefs, model: deps.llmModel },
-      opts.signal,
-    );
+    res = await callLlm();
     addUsage(res.usage);
   }
 
-  // 4. 最终回答：Web 端流式重放，IM 端直接用上一轮结果（省一次调用）
-  let content = res.content;
-  if (opts.onDelta && !content) {
-    content = await streamFinal(messages, deps, opts, addUsage);
+  // 流式接口未返回 usage 时按文本长度估算（token 与成本统计）
+  if (useStream && res.usage.outputTokens === 0) {
+    addUsage({
+      inputTokens: estimateTokens(messages.map((m) => m.content).join('')),
+      outputTokens: estimateTokens(res.content),
+    });
   }
 
-  const resolved = resolveCitations(content, retrieved);
+  const resolved = resolveCitations(res.content, retrieved);
   return {
     content: resolved.content,
     citations: resolved.citations,
@@ -105,27 +110,4 @@ export async function runAgent(question: string, deps: AgentDeps, opts: RunOptio
     retrievalCount: retrieved.length,
     costUsd: estimateCostUsd(deps.llmModel, usage),
   };
-}
-
-/** 流式生成最终回答（不带工具，避免流中出现工具调用）。 */
-async function streamFinal(
-  messages: ChatMessage[],
-  deps: AgentDeps,
-  opts: RunOptions,
-  addUsage: (u: Usage) => void,
-): Promise<string> {
-  const res = await deps.llm.chatStream(
-    { messages, temperature: 0.2, model: deps.llmModel },
-    opts.onDelta!,
-    opts.signal,
-  );
-  if (!res.usage.outputTokens) {
-    addUsage({
-      inputTokens: estimateTokens(messages.map((m) => m.content).join('')),
-      outputTokens: estimateTokens(res.content),
-    });
-  } else {
-    addUsage(res.usage);
-  }
-  return res.content;
 }

@@ -127,6 +127,8 @@ export class OpenAiCompatibleProvider implements LlmProvider {
     let buffer = '';
     let content = '';
     let usage: Usage = { inputTokens: 0, outputTokens: 0 };
+    // 流式分片中的工具调用（OpenAI 格式按 index 聚合 id/name/arguments）
+    const toolCalls: ToolCall[] = [];
 
     for (;;) {
       const { done, value } = await reader.read();
@@ -141,13 +143,33 @@ export class OpenAiCompatibleProvider implements LlmProvider {
         if (data === '[DONE]') continue;
         try {
           const chunk = JSON.parse(data) as {
-            choices?: Array<{ delta?: { content?: string } }>;
+            choices?: Array<{
+              delta?: {
+                content?: string;
+                tool_calls?: Array<{
+                  index?: number;
+                  id?: string;
+                  function?: { name?: string; arguments?: string };
+                }>;
+              };
+            }>;
             usage?: { prompt_tokens?: number; completion_tokens?: number };
           };
-          const delta = chunk.choices?.[0]?.delta?.content ?? '';
-          if (delta) {
-            content += delta;
-            onDelta(delta);
+          const delta = chunk.choices?.[0]?.delta;
+          if (delta?.content) {
+            content += delta.content;
+            onDelta(delta.content);
+          }
+          for (const tc of delta?.tool_calls ?? []) {
+            const idx = tc.index ?? 0;
+            let call = toolCalls[idx];
+            if (!call) {
+              call = { id: '', name: '', args: '' };
+              toolCalls[idx] = call;
+            }
+            if (tc.id) call.id = tc.id;
+            if (tc.function?.name) call.name += tc.function.name;
+            if (tc.function?.arguments) call.args += tc.function.arguments;
           }
           if (chunk.usage) {
             usage = {
@@ -160,7 +182,11 @@ export class OpenAiCompatibleProvider implements LlmProvider {
         }
       }
     }
-    return { content, toolCalls: [], usage };
+    return {
+      content,
+      toolCalls: toolCalls.filter((c) => c && c.name),
+      usage,
+    };
   }
 }
 

@@ -48,6 +48,17 @@ describe('Agent 工具自主决策（Mock LLM，完全离线）', () => {
     expect(result.content).toContain('没找到');
     expect(result.toolCalls).toHaveLength(0);
   });
+
+  it('提供 onDelta 时答案逐字流式输出（Web 端行为）', async () => {
+    const deltas: string[] = [];
+    const result = await runAgent(
+      '员工 001 是哪个部门的？',
+      makeDeps(),
+      { onDelta: (t) => deltas.push(t) },
+    );
+    expect(deltas.join('')).toContain('研发部');
+    expect(result.content).toContain('研发部');
+  });
 });
 
 describe('工具执行器', () => {

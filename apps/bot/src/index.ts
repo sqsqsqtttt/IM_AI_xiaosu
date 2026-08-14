@@ -160,6 +160,12 @@ export function createDingtalkBot(opts: DingtalkBotOptions): DingtalkBot {
 
   async function handleMessage(msg: BotMessage): Promise<void> {
     const started = Date.now();
+    // 立即回执，避免用户干等（流式感知体验；失败不影响主流程）
+    try {
+      await sendSessionReply(msg, '🤔 小苏正在思考…');
+    } catch {
+      // 回执失败忽略，最终回答仍会发送
+    }
     try {
       const reply = await opts.handlers.onMessage(msg);
       const text = reply.text || '（小苏没有想好怎么回答）';

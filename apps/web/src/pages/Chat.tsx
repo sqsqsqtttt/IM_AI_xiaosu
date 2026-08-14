@@ -54,18 +54,53 @@ export default function Chat() {
         m.map((x) => (x.id === aiMsg.id ? { ...x, content: x.content + t } : x)),
       );
 
+    // 打字机节奏：模型分片到达速度快，这里按固定节奏逐字吐出
+    let pending = '';
+    let acc = '';
+    let timer: number | null = null;
+    const flush = (count: number): void => {
+      const chunk = pending.slice(0, count);
+      pending = pending.slice(count);
+      if (chunk) {
+        acc += chunk;
+        appendDelta(chunk);
+      }
+      if (!pending && timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+
     await chatStream(text, getConversationId(), {
-      onDelta: appendDelta,
-      onDone: (data) =>
+      onDelta: (t) => {
+        pending += t;
+        if (timer === null) {
+          timer = window.setInterval(() => flush(2), 55);
+        }
+      },
+      onDone: (data) => {
+        if (timer !== null) {
+          clearInterval(timer);
+          timer = null;
+        }
+        flush(pending.length); // 吐出剩余内容
         update({
           streaming: false,
-          content: String(data.content ?? ''),
+          content: acc || String(data.content ?? ''),
           citations: data.citations as Citation[] | undefined,
           toolCalls: data.toolCalls as ToolCallRecord[] | undefined,
           usage: data.usage as UiMessage['usage'],
           costUsd: data.costUsd as number | undefined,
-        }),
-      onError: (msg) => update({ streaming: false, error: msg }),
+        });
+      },
+      onError: (msg) => {
+        if (timer !== null) {
+          clearInterval(timer);
+          timer = null;
+        }
+        flush(pending.length);
+        update({ streaming: false, error: msg });
+      },
     });
     setMessages((m) =>
       m.map((x) => (x.id === aiMsg.id && x.streaming ? { ...x, streaming: false } : x)),
