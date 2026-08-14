@@ -38,6 +38,20 @@ export interface DingtalkBotOptions {
   logger: BotLogger;
 }
 
+/**
+ * 去 Markdown 化：钉钉 text 消息不渲染 Markdown，星号/井号会原样露出。
+ * 把加粗/斜体/标题/列表/行内代码转成自然纯文本，IM 展示更干净。
+ */
+export function stripMarkdownForIM(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '$1') // 加粗
+    .replace(/\*([^*\n]+)\*/g, '$1') // 斜体
+    .replace(/^#{1,6}\s+/gm, '') // 标题
+    .replace(/^[-*]\s+/gm, '· ') // 无序列表
+    .replace(/`([^`\n]+)`/g, '$1') // 行内代码
+    .trim();
+}
+
 export interface DingtalkBot {
   start(): Promise<void>;
   stop(): void;
@@ -184,11 +198,19 @@ export function createDingtalkBot(opts: DingtalkBotOptions): DingtalkBot {
     }
   }
 
+  /**
+   * 去 Markdown 化：钉钉 text 消息不渲染 Markdown，星号/井号会原样露出。
+   */
+  function stripMarkdown(text: string): string {
+    return stripMarkdownForIM(text);
+  }
+
   async function sendSessionReply(msg: BotMessage, text: string): Promise<void> {
+    const clean = stripMarkdown(text);
     const payload =
-      text.length > 400
-        ? { msgtype: 'markdown', markdown: { title: '小苏', text } }
-        : { msgtype: 'text', text: { content: text } };
+      clean.length > 400
+        ? { msgtype: 'markdown', markdown: { title: '小苏', text: clean } }
+        : { msgtype: 'text', text: { content: clean } };
     if (msg.sessionWebhook && Date.now() <= msg.sessionWebhookExpiredTime + 60_000) {
       const res = await fetch(msg.sessionWebhook, {
         method: 'POST',

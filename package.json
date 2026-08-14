@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/node": "^26.2.0",
     "@types/pdfkit": "^0.17.6",
+    "@xiaosu/bot": "workspace:*",
     "@xiaosu/core": "workspace:*",
     "@xiaosu/db": "workspace:*",
     "docx": "^9.7.1",
