@@ -58,10 +58,36 @@ export default function Chat() {
         m.map((x) => (x.id === aiMsg.id ? { ...x, content: x.content + t } : x)),
       );
 
-    // 打字机节奏：模型分片到达速度快，这里按固定节奏逐字吐出
+    // 打字机节奏：模型分片到达速度快，这里按固定节奏逐字吐出。
+    // 关键：流结束后不一次性倒空缓冲，而是继续匀速吐完再收尾。
     let pending = '';
     let acc = '';
     let timer: number | null = null;
+    let doneData: Record<string, unknown> | null = null;
+    let errorMsg: string | null = null;
+    let streamEnded = false;
+    let finalized = false;
+
+    const finalize = (): void => {
+      if (finalized) return;
+      finalized = true;
+      if (doneData) {
+        update({
+          streaming: false,
+          content: acc || String(doneData.content ?? ''),
+          citations: doneData.citations as Citation[] | undefined,
+          toolCalls: doneData.toolCalls as ToolCallRecord[] | undefined,
+          usage: doneData.usage as UiMessage['usage'],
+          costUsd: doneData.costUsd as number | undefined,
+        });
+      } else if (errorMsg) {
+        update({ streaming: false, error: errorMsg });
+      } else {
+        update({ streaming: false });
+      }
+      setBusy(false);
+    };
+
     const flush = (count: number): void => {
       const chunk = pending.slice(0, count);
       pending = pending.slice(count);
@@ -69,47 +95,40 @@ export default function Chat() {
         acc += chunk;
         appendDelta(chunk);
       }
-      if (!pending && timer !== null) {
-        clearInterval(timer);
-        timer = null;
+      if (!pending) {
+        if (timer !== null) {
+          clearInterval(timer);
+          timer = null;
+        }
+        if (streamEnded) finalize();
       }
     };
 
-    await chatStream(text, getConversationId(), {
-      onDelta: (t) => {
-        pending += t;
-        if (timer === null) {
-          timer = window.setInterval(() => flush(CHARS_PER_TICK), TICK_MS);
-        }
-      },
-      onDone: (data) => {
-        if (timer !== null) {
-          clearInterval(timer);
-          timer = null;
-        }
-        flush(pending.length); // 吐出剩余内容
-        update({
-          streaming: false,
-          content: acc || String(data.content ?? ''),
-          citations: data.citations as Citation[] | undefined,
-          toolCalls: data.toolCalls as ToolCallRecord[] | undefined,
-          usage: data.usage as UiMessage['usage'],
-          costUsd: data.costUsd as number | undefined,
-        });
-      },
-      onError: (msg) => {
-        if (timer !== null) {
-          clearInterval(timer);
-          timer = null;
-        }
-        flush(pending.length);
-        update({ streaming: false, error: msg });
-      },
-    });
-    setMessages((m) =>
-      m.map((x) => (x.id === aiMsg.id && x.streaming ? { ...x, streaming: false } : x)),
-    );
-    setBusy(false);
+    try {
+      await chatStream(text, getConversationId(), {
+        onDelta: (t) => {
+          pending += t;
+          if (timer === null) {
+            timer = window.setInterval(() => flush(CHARS_PER_TICK), TICK_MS);
+          }
+        },
+        onDone: (data) => {
+          doneData = data;
+          streamEnded = true;
+          // 缓冲未吐完时交给定时器继续，吐完自动收尾
+          if (!pending) finalize();
+        },
+        onError: (msg) => {
+          errorMsg = msg;
+          streamEnded = true;
+          if (!pending) finalize();
+        },
+      });
+    } catch (e) {
+      errorMsg = e instanceof Error ? e.message : String(e);
+    }
+    streamEnded = true;
+    if (!pending) finalize();
   };
 
   return (
