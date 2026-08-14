@@ -20,9 +20,10 @@ describe('IM 文案去 Markdown 化', () => {
   });
 
   it('引用区块整体干净（模拟真实回复）', () => {
-    const reply = '入职满 1 年每年 **5 天**带薪年假。[C1]\n\n📚 **来源**\n- 员工手册.md · 2.1 年假';
+    const reply = '入职满 1 年每年 **5 天**带薪年假。[C1][C2]\n\n📚 **来源**\n- 员工手册.md · 2.1 年假';
     const clean = stripMarkdownForIM(reply);
     expect(clean).not.toContain('*');
+    expect(clean).not.toContain('[C');
     expect(clean).toContain('5 天');
     expect(clean).toContain('📚 来源');
   });
