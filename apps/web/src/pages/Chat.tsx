@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Plus, SendHorizonal } from 'lucide-react';
 import { apiGet, chatStream } from '../api.ts';
-import type { Citation, MessageView, ToolCallRecord } from '../types.ts';
+import type { Citation, ConversationView, MessageView, ToolCallRecord } from '../types.ts';
 import Markdown from '../components/Markdown.tsx';
 import Citations from '../components/Citations.tsx';
 
@@ -42,12 +42,13 @@ export default function Chat() {
   const [messages, setMessages] = useState<UiMessage[]>([]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
+  const [convList, setConvList] = useState<ConversationView[]>([]);
+  const [currentConvId, setCurrentConvId] = useState<string>(() => getConversationId());
   const bottomRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
 
-  // 进入页面时从服务端恢复历史对话（切换菜单/刷新后记录不丢）
-  useEffect(() => {
-    const convId = getConversationId();
+  /** 从服务端加载指定会话的消息历史。 */
+  const loadHistory = (convId: string): void => {
     void apiGet<{ messages: MessageView[] }>(
       `/chat/history?conversationId=${encodeURIComponent(convId)}`,
     )
@@ -62,15 +63,38 @@ export default function Chat() {
             m.tokens_in != null ? { inputTokens: m.tokens_in, outputTokens: m.tokens_out ?? 0 } : undefined,
           costUsd: m.cost ?? undefined,
         }));
-        if (restored.length) setMessages(restored);
+        setMessages(restored);
       })
       .catch(() => {
         // 恢复失败不影响新对话
       });
+  };
+
+  /** 刷新 Web 会话列表（历史会话切换器用）。 */
+  const refreshConvList = (): void => {
+    void apiGet<{ conversations: ConversationView[] }>('/logs?limit=100')
+      .then((d) => setConvList(d.conversations.filter((c) => c.platform === 'web')))
+      .catch(() => {});
+  };
+
+  // 进入页面：恢复当前会话 + 拉取历史会话列表
+  useEffect(() => {
+    const convId = getConversationId();
+    setCurrentConvId(convId);
+    loadHistory(convId);
+    refreshConvList();
   }, []);
 
+  const switchConversation = (convId: string): void => {
+    localStorage.setItem(CONV_KEY, convId);
+    setCurrentConvId(convId);
+    setMessages([]);
+    loadHistory(convId);
+  };
+
   const startNewChat = (): void => {
-    resetConversationId();
+    const id = resetConversationId();
+    setCurrentConvId(id);
     setMessages([]);
   };
 
@@ -122,6 +146,7 @@ export default function Chat() {
         update({ streaming: false });
       }
       setBusy(false);
+      refreshConvList(); // 会话列表跟随最新消息刷新
     };
 
     const flush = (count: number): void => {
@@ -169,11 +194,35 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col h-screen max-w-4xl mx-auto">
-      <div className="flex items-center justify-between px-6 py-3 border-b border-slate-100 bg-white/70 backdrop-blur">
-        <div className="text-sm font-medium text-slate-600">与小苏聊天（记录自动保存）</div>
+      <div className="flex items-center justify-between gap-3 px-6 py-3 border-b border-slate-100 bg-white/70 backdrop-blur">
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="text-sm font-medium text-slate-600 shrink-0">与小苏聊天</span>
+          {convList.length > 0 && (
+            <select
+              value={currentConvId}
+              onChange={(e) => {
+                if (e.target.value && e.target.value !== currentConvId) {
+                  switchConversation(e.target.value);
+                }
+              }}
+              className="text-xs border border-slate-300 rounded-lg px-2 py-1.5 bg-white text-slate-600 max-w-[260px] truncate"
+              title="切换历史会话"
+            >
+              {!convList.some((c) => c.conversation_id === currentConvId) && (
+                <option value={currentConvId}>（当前对话）</option>
+              )}
+              {convList.map((c) => (
+                <option key={c.id} value={c.conversation_id}>
+                  {new Date(c.updated_at).toLocaleString('zh-CN', { hour12: false })} ·{' '}
+                  {(c.last_message ?? '').slice(0, 18) || '（空会话）'}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
         <button
           onClick={startNewChat}
-          className="flex items-center gap-1 text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 hover:bg-slate-100 text-slate-500"
+          className="flex items-center gap-1 text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 hover:bg-slate-100 text-slate-500 shrink-0"
         >
           <Plus className="w-3.5 h-3.5" /> 新对话
         </button>
