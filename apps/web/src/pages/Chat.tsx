@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { SendHorizonal } from 'lucide-react';
-import { chatStream } from '../api.ts';
-import type { Citation, ToolCallRecord } from '../types.ts';
+import { Plus, SendHorizonal } from 'lucide-react';
+import { apiGet, chatStream } from '../api.ts';
+import type { Citation, MessageView, ToolCallRecord } from '../types.ts';
 import Markdown from '../components/Markdown.tsx';
 import Citations from '../components/Citations.tsx';
 
@@ -21,13 +21,20 @@ interface UiMessage {
   costUsd?: number;
 }
 
+const CONV_KEY = 'xiaosu-web-conv';
+
 function getConversationId(): string {
-  const KEY = 'xiaosu-web-conv';
-  let id = localStorage.getItem(KEY);
+  let id = localStorage.getItem(CONV_KEY);
   if (!id) {
     id = crypto.randomUUID();
-    localStorage.setItem(KEY, id);
+    localStorage.setItem(CONV_KEY, id);
   }
+  return id;
+}
+
+function resetConversationId(): string {
+  const id = crypto.randomUUID();
+  localStorage.setItem(CONV_KEY, id);
   return id;
 }
 
@@ -37,6 +44,35 @@ export default function Chat() {
   const [busy, setBusy] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(1);
+
+  // 进入页面时从服务端恢复历史对话（切换菜单/刷新后记录不丢）
+  useEffect(() => {
+    const convId = getConversationId();
+    void apiGet<{ messages: MessageView[] }>(
+      `/chat/history?conversationId=${encodeURIComponent(convId)}`,
+    )
+      .then((data) => {
+        const restored: UiMessage[] = data.messages.map((m) => ({
+          id: nextId.current++,
+          role: m.role === 'assistant' ? 'assistant' : 'user',
+          content: m.content,
+          citations: m.citations ?? undefined,
+          toolCalls: m.tool_calls ?? undefined,
+          usage:
+            m.tokens_in != null ? { inputTokens: m.tokens_in, outputTokens: m.tokens_out ?? 0 } : undefined,
+          costUsd: m.cost ?? undefined,
+        }));
+        if (restored.length) setMessages(restored);
+      })
+      .catch(() => {
+        // 恢复失败不影响新对话
+      });
+  }, []);
+
+  const startNewChat = (): void => {
+    resetConversationId();
+    setMessages([]);
+  };
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -133,6 +169,15 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col h-screen max-w-4xl mx-auto">
+      <div className="flex items-center justify-between px-6 py-3 border-b border-slate-100 bg-white/70 backdrop-blur">
+        <div className="text-sm font-medium text-slate-600">与小苏聊天（记录自动保存）</div>
+        <button
+          onClick={startNewChat}
+          className="flex items-center gap-1 text-xs border border-slate-300 rounded-lg px-2.5 py-1.5 hover:bg-slate-100 text-slate-500"
+        >
+          <Plus className="w-3.5 h-3.5" /> 新对话
+        </button>
+      </div>
       <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
         {messages.length === 0 && (
           <div className="text-center text-slate-400 mt-24">

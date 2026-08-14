@@ -50,6 +50,16 @@ export function createConversationsRepo(db: DatabaseSync) {
       return (row as unknown as ConversationRow | undefined) ?? null;
     },
 
+    /** 按 (platform, userId, conversationId) 精确查找会话（不创建）。 */
+    findByKey(platform: string, userId: string, conversationId: string): ConversationRow | null {
+      const row = db
+        .prepare(
+          'SELECT * FROM conversations WHERE platform = ? AND user_id = ? AND conversation_id = ?',
+        )
+        .get(platform, userId, conversationId);
+      return (row as unknown as ConversationRow | undefined) ?? null;
+    },
+
     touch(id: string): void {
       db.prepare('UPDATE conversations SET updated_at = ? WHERE id = ?').run(now(), id);
     },
