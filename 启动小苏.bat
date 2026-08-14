@@ -8,6 +8,5 @@ if not defined BASH (
   pause
   exit /b 1
 )
-echo Starting XiaoSu (dev mode). Press Ctrl+C in the new window to stop.
-"%BASH%" scripts/dev.sh
-pause
+rem 在新窗口直接运行 bash（不再经过 cmd 等待，Ctrl+C 不会出现"终止批处理操作"提示）
+start "XiaoSu Dev Server" "%BASH%" scripts/dev.sh

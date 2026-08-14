@@ -8,6 +8,12 @@ if ! command -v pnpm >/dev/null 2>&1; then
   exit 1
 fi
 
+if netstat -ano 2>/dev/null | grep -q ':3000 .*LISTENING'; then
+  echo "[dev] 端口 3000 已被占用 —— 小苏似乎已经在运行。" >&2
+  echo "[dev] 如需重启：先按 Ctrl+C 停止旧窗口，再重新双击启动。" >&2
+  exit 1
+fi
+
 if [ ! -f .env ]; then
   cp .env.example .env
   echo "[dev] 已从 .env.example 创建 .env，请填写 DeepSeek / 钉钉密钥后重启"
@@ -16,10 +22,26 @@ fi
 [ -d node_modules ] || pnpm install
 mkdir -p logs data/mock
 
-trap 'echo "[dev] 停止所有进程..."; kill 0' EXIT INT TERM
-
 pnpm --filter @xiaosu/server dev &
+SERVER_PID=$!
 pnpm --filter @xiaosu/web dev &
+WEB_PID=$!
+
+# 停止时只杀本次启动的两个子进程树（Windows 用 taskkill /T 带出整棵树），
+# 绝不再向自己发信号，避免重复触发导致刷屏。
+stopped=0
+stop() {
+  if [ "$stopped" = "1" ]; then
+    return
+  fi
+  stopped=1
+  echo ""
+  echo "[dev] 停止所有进程..."
+  taskkill //F //T //PID "$SERVER_PID" >/dev/null 2>&1 || true
+  taskkill //F //T //PID "$WEB_PID" >/dev/null 2>&1 || true
+}
+trap stop EXIT INT TERM
 
 echo "[dev] 后端: http://localhost:3000  |  前端: http://localhost:5173"
+echo "[dev] 停止请按 Ctrl+C（只会看到一条停止提示）"
 wait
