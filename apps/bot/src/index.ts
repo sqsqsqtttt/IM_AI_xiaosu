@@ -88,6 +88,8 @@ export function createDingtalkBot(opts: DingtalkBotOptions): DingtalkBot {
   async function handleEvent(event: DWClientDownStream): Promise<void> {
     const topic = event.headers.topic ?? '';
     const eventType = event.headers.eventType ?? '';
+    // 记录每条事件（低流量场景，便于远端排障）
+    opts.logger.info({ topic, eventType, data: String(event.data).slice(0, 120) }, '钉钉事件');
     if (!topic.includes('im/bot/messages') && eventType !== 'im.message.receive_v1') return;
 
     let raw: unknown;
