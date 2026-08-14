@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "name": "小苏知识问答评测集",
+    "description": "对照笔试题验收清单 7.1–7.4 与知识库边界题；contains 命中任意一个即通过，notContains 全部不出现即通过。",
+    "version": "v1"
+  },
+  "cases": [
+    { "id": 1, "question": "员工每年有几天年假？", "contains": ["5 天", "五天"], "expectTool": null, "expectCite": true, "source": "验收7.1" },
+    { "id": 2, "question": "报销发票需要什么材料？", "contains": ["发票", "报销单"], "expectTool": null, "expectCite": true, "source": "验收7.1" },
+    { "id": 3, "question": "新人入职第一天要做哪些事？", "contains": ["工卡", "培训"], "expectTool": null, "expectCite": true, "source": "验收7.1" },
+    { "id": 4, "question": "员工 001 是哪个部门的？", "contains": ["研发部"], "expectTool": "employee_info", "expectCite": false, "source": "验收7.2" },
+    { "id": 5, "question": "上周一共多少订单？", "contains": ["订单", "笔", "个"], "expectTool": "orders_query", "expectCite": false, "source": "验收7.2" },
+    { "id": 6, "question": "现在几点？", "contains": ["现在"], "expectTool": "current_time", "expectCite": false, "source": "验收7.2" },
+    {
+      "id": 7,
+      "question": "他上周来上班几天？",
+      "contains": ["天"],
+      "expectTool": "attendance_query",
+      "expectCite": false,
+      "source": "验收7.3",
+      "history": [
+        { "role": "user", "content": "员工 001 是哪个部门的？" },
+        { "role": "assistant", "content": "员工 001 张三在研发部。" }
+      ]
+    },
+    { "id": 8, "question": "我们公司 CEO 的家庭住址是？", "contains": ["没找到", "无法", "不知道"], "expectTool": null, "expectCite": false, "source": "验收7.4" },
+    { "id": 9, "question": "2030 年的销售目标是多少？", "contains": ["没找到", "无法", "不知道"], "expectTool": null, "expectCite": false, "source": "验收7.4" },
+    { "id": 10, "question": "病假需要什么证明？", "contains": ["医院证明", "80%"], "expectTool": null, "expectCite": true, "source": "知识库" },
+    { "id": 11, "question": "加班费怎么算？", "contains": ["1.5 倍", "1.5倍"], "expectTool": null, "expectCite": true, "source": "知识库" },
+    { "id": 12, "question": "出差住宿标准是多少？", "contains": ["500", "350"], "expectTool": null, "expectCite": true, "source": "知识库" },
+    { "id": 13, "question": "忘打卡怎么办？", "contains": ["补卡"], "expectTool": null, "expectCite": true, "source": "知识库" },
+    { "id": 14, "question": "报销多久到账？", "contains": ["次月 10 日", "10 日"], "expectTool": null, "expectCite": true, "source": "知识库" },
+    { "id": 15, "question": "公积金比例是多少？", "contains": ["12%"], "expectTool": null, "expectCite": true, "source": "知识库" },
+    { "id": 16, "question": "帮我算一下 (1280+350)*0.8 等于多少？", "contains": ["1304"], "expectTool": "calculator", "expectCite": false, "source": "工具-计算器" },
+    { "id": 17, "question": "员工 999 是谁？", "contains": ["未找到", "不存在", "没有"], "expectTool": "employee_info", "expectCite": false, "source": "边界-不存在员工" },
+    { "id": 18, "question": "今天星期几？", "contains": ["周"], "expectTool": "current_time", "expectCite": false, "source": "工具-时间" },
+    { "id": 19, "question": "员工 005 是什么职级？", "contains": ["P5", "市场专员"], "expectTool": "employee_info", "expectCite": false, "source": "工具-员工" },
+    { "id": 20, "question": "学习基金怎么用？", "contains": ["1000"], "expectTool": null, "expectCite": true, "source": "知识库" },
+    { "id": 21, "question": "电脑坏了找谁？", "contains": ["8002", "IT"], "expectTool": null, "expectCite": true, "source": "知识库" },
+    { "id": 22, "question": "年假能顺延到什么时候？", "contains": ["3 月 31 日"], "expectTool": null, "expectCite": true, "source": "知识库" }
+  ]
+}
