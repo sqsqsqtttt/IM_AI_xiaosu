@@ -59,6 +59,35 @@ describe('Agent 工具自主决策（Mock LLM，完全离线）', () => {
     expect(deltas.join('')).toContain('研发部');
     expect(result.content).toContain('研发部');
   });
+
+  it('模型带旁白发起工具调用 → 工具必须执行，旁白不算最终答案', async () => {
+    const mock = generateMockData(new Date('2026-08-10'));
+    const registry = buildToolRegistry(mock, () => new Date('2026-08-10T10:00:00'));
+    const llm = new FakeProvider([
+      {
+        match: /销售额/,
+        toolCalls: [{ id: 't1', name: 'orders_query', args: JSON.stringify({}) }],
+        partialContent: '我先确认一下当前时间，再帮你查订单数据。',
+      },
+      { match: /销售额/, content: '上周三销售额为 1280 元。' },
+    ]);
+    const result = await runAgent('上周三的销售额是多少？', {
+      llm,
+      llmModel: 'fake-model',
+      embedder: {
+        dim: 4,
+        ready: async () => {},
+        embed: async (ts: string[]) => ts.map(() => [0, 0, 0, 0]),
+      },
+      toolDefs: registry.defs,
+      executeTool: registry.execute,
+      listChunks: () => [],
+      history: [],
+    });
+    expect(result.toolCalls.map((t) => t.name)).toContain('orders_query');
+    expect(result.content).toContain('1280');
+    expect(result.content).not.toContain('我先确认一下');
+  });
 });
 
 describe('工具执行器', () => {

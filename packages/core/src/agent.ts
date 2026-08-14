@@ -26,7 +26,7 @@ export interface RunOptions {
   signal?: AbortSignal;
 }
 
-const MAX_TOOL_ROUNDS = 3;
+const MAX_TOOL_ROUNDS = 4;
 
 /**
  * Agent 主循环：
@@ -66,7 +66,9 @@ export async function runAgent(question: string, deps: AgentDeps, opts: RunOptio
   res = await callLlm();
   addUsage(res.usage);
 
-  while (res.toolCalls.length > 0 && rounds < MAX_TOOL_ROUNDS && !res.content.trim()) {
+  // 只要模型发起工具调用就执行：带旁白+工具调用的响应（如"我先确认一下当前时间"）
+  // 中的旁白不是最终答案，不能跳过工具执行。
+  while (res.toolCalls.length > 0 && rounds < MAX_TOOL_ROUNDS) {
     rounds++;
     messages.push({ role: 'assistant', content: '', toolCalls: res.toolCalls });
     for (const call of res.toolCalls) {

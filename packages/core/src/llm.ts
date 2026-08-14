@@ -253,6 +253,8 @@ export interface FakeRule {
   toolCalls?: ToolCall[];
   /** 命中时返回的内容（回答阶段；与 toolCalls 二选一）。 */
   content?: string;
+  /** 工具调用同时携带的旁白（模拟模型"边说话边调工具"）。 */
+  partialContent?: string;
 }
 
 export class FakeProvider implements LlmProvider {
@@ -274,7 +276,11 @@ export class FakeProvider implements LlmProvider {
     }
 
     if (rule?.toolCalls?.length) {
-      return { content: '', toolCalls: rule.toolCalls, usage: { inputTokens: 10, outputTokens: 0 } };
+      return {
+        content: rule.partialContent ?? '',
+        toolCalls: rule.toolCalls,
+        usage: { inputTokens: 10, outputTokens: 0 },
+      };
     }
     return {
       content: rule?.content ?? this.defaultContent,
@@ -288,7 +294,7 @@ export class FakeProvider implements LlmProvider {
     onDelta: (t: string) => void,
   ): Promise<ChatResult> {
     const result = await this.chat(req);
-    onDelta(result.content);
+    if (result.content) onDelta(result.content);
     return result;
   }
 }
