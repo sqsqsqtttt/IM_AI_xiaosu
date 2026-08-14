@@ -1,0 +1,29 @@
+{
+  "name": "xiaosu",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.21.0",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "dev": "bash scripts/dev.sh",
+    "build": "bash scripts/build.sh",
+    "start": "bash scripts/start.sh",
+    "test": "bash scripts/test.sh",
+    "seed": "bash scripts/seed.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@types/pdfkit": "^0.17.6",
+    "@xiaosu/core": "workspace:*",
+    "@xiaosu/db": "workspace:*",
+    "docx": "^9.7.1",
+    "pdfkit": "^0.19.1",
+    "pino": "^10.3.1",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  }
+}

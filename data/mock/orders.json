@@ -1,0 +1,482 @@
+[
+  {
+    "id": "O20260704011",
+    "amount": 765.35,
+    "date": "2026-07-04",
+    "customer": "A 公司",
+    "product": "苏办·企业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260704032",
+    "amount": 5633.35,
+    "date": "2026-07-04",
+    "customer": "A 公司",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260705006",
+    "amount": 1805.6,
+    "date": "2026-07-05",
+    "customer": "E 制造",
+    "product": "数据驾驶舱模块",
+    "status": "paid"
+  },
+  {
+    "id": "O20260705024",
+    "amount": 5450.64,
+    "date": "2026-07-05",
+    "customer": "D 贸易",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260706031",
+    "amount": 4395.54,
+    "date": "2026-07-06",
+    "customer": "E 制造",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260706039",
+    "amount": 7482.59,
+    "date": "2026-07-06",
+    "customer": "H 教育",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260707036",
+    "amount": 5418.43,
+    "date": "2026-07-07",
+    "customer": "C 科技",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260707056",
+    "amount": 5235.84,
+    "date": "2026-07-07",
+    "customer": "F 零售",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260708014",
+    "amount": 6437.47,
+    "date": "2026-07-08",
+    "customer": "F 零售",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260708021",
+    "amount": 3746.51,
+    "date": "2026-07-08",
+    "customer": "B 集团",
+    "product": "苏办·企业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260708033",
+    "amount": 3060.01,
+    "date": "2026-07-08",
+    "customer": "G 物流",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260708035",
+    "amount": 7155.18,
+    "date": "2026-07-08",
+    "customer": "D 贸易",
+    "product": "数据驾驶舱模块",
+    "status": "paid"
+  },
+  {
+    "id": "O20260708053",
+    "amount": 5480.67,
+    "date": "2026-07-08",
+    "customer": "E 制造",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260709015",
+    "amount": 7695.7,
+    "date": "2026-07-09",
+    "customer": "A 公司",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260709023",
+    "amount": 7377.34,
+    "date": "2026-07-09",
+    "customer": "G 物流",
+    "product": "AI 助手模块",
+    "status": "paid"
+  },
+  {
+    "id": "O20260711037",
+    "amount": 3416.13,
+    "date": "2026-07-11",
+    "customer": "G 物流",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260712025",
+    "amount": 5559.1,
+    "date": "2026-07-12",
+    "customer": "H 教育",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260712041",
+    "amount": 4821.7,
+    "date": "2026-07-12",
+    "customer": "G 物流",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260712043",
+    "amount": 240.43,
+    "date": "2026-07-12",
+    "customer": "F 零售",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260713022",
+    "amount": 1989.13,
+    "date": "2026-07-13",
+    "customer": "A 公司",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260714046",
+    "amount": 4727.94,
+    "date": "2026-07-14",
+    "customer": "C 科技",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260715048",
+    "amount": 4818.49,
+    "date": "2026-07-15",
+    "customer": "H 教育",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260716017",
+    "amount": 6929.28,
+    "date": "2026-07-16",
+    "customer": "D 贸易",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260717050",
+    "amount": 4791.77,
+    "date": "2026-07-17",
+    "customer": "D 贸易",
+    "product": "苏办·旗舰版",
+    "status": "refunded"
+  },
+  {
+    "id": "O20260718045",
+    "amount": 7878.29,
+    "date": "2026-07-18",
+    "customer": "D 贸易",
+    "product": "数据驾驶舱模块",
+    "status": "paid"
+  },
+  {
+    "id": "O20260722008",
+    "amount": 5692.65,
+    "date": "2026-07-22",
+    "customer": "H 教育",
+    "product": "苏办·企业版",
+    "status": "refunded"
+  },
+  {
+    "id": "O20260723026",
+    "amount": 6374.64,
+    "date": "2026-07-23",
+    "customer": "A 公司",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260723027",
+    "amount": 5288.19,
+    "date": "2026-07-23",
+    "customer": "C 科技",
+    "product": "AI 助手模块",
+    "status": "paid"
+  },
+  {
+    "id": "O20260724013",
+    "amount": 3461.9,
+    "date": "2026-07-24",
+    "customer": "G 物流",
+    "product": "数据驾驶舱模块",
+    "status": "paid"
+  },
+  {
+    "id": "O20260724030",
+    "amount": 4682.04,
+    "date": "2026-07-24",
+    "customer": "H 教育",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260724058",
+    "amount": 3974.3,
+    "date": "2026-07-24",
+    "customer": "A 公司",
+    "product": "苏办·专业版",
+    "status": "pending"
+  },
+  {
+    "id": "O20260725004",
+    "amount": 7525.55,
+    "date": "2026-07-25",
+    "customer": "A 公司",
+    "product": "苏办·企业版",
+    "status": "refunded"
+  },
+  {
+    "id": "O20260725009",
+    "amount": 7308.17,
+    "date": "2026-07-25",
+    "customer": "B 集团",
+    "product": "数据驾驶舱模块",
+    "status": "paid"
+  },
+  {
+    "id": "O20260726003",
+    "amount": 3206.5,
+    "date": "2026-07-26",
+    "customer": "H 教育",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260727020",
+    "amount": 5695.07,
+    "date": "2026-07-27",
+    "customer": "H 教育",
+    "product": "苏办·企业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260727042",
+    "amount": 5783.5,
+    "date": "2026-07-27",
+    "customer": "G 物流",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260728040",
+    "amount": 4579.4,
+    "date": "2026-07-28",
+    "customer": "B 集团",
+    "product": "苏办·企业版",
+    "status": "refunded"
+  },
+  {
+    "id": "O20260728059",
+    "amount": 6411.88,
+    "date": "2026-07-28",
+    "customer": "H 教育",
+    "product": "苏办·企业版",
+    "status": "refunded"
+  },
+  {
+    "id": "O20260729002",
+    "amount": 7241.9,
+    "date": "2026-07-29",
+    "customer": "H 教育",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260729034",
+    "amount": 1452.49,
+    "date": "2026-07-29",
+    "customer": "G 物流",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260730012",
+    "amount": 1147.7,
+    "date": "2026-07-30",
+    "customer": "H 教育",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260730019",
+    "amount": 527.84,
+    "date": "2026-07-30",
+    "customer": "C 科技",
+    "product": "数据驾驶舱模块",
+    "status": "paid"
+  },
+  {
+    "id": "O20260730028",
+    "amount": 3861.63,
+    "date": "2026-07-30",
+    "customer": "A 公司",
+    "product": "苏办·旗舰版",
+    "status": "refunded"
+  },
+  {
+    "id": "O20260730049",
+    "amount": 7027.66,
+    "date": "2026-07-30",
+    "customer": "H 教育",
+    "product": "AI 助手模块",
+    "status": "paid"
+  },
+  {
+    "id": "O20260730051",
+    "amount": 6057.53,
+    "date": "2026-07-30",
+    "customer": "E 制造",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260731001",
+    "amount": 2445.65,
+    "date": "2026-07-31",
+    "customer": "A 公司",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260731007",
+    "amount": 7430.84,
+    "date": "2026-07-31",
+    "customer": "E 制造",
+    "product": "数据驾驶舱模块",
+    "status": "paid"
+  },
+  {
+    "id": "O20260802044",
+    "amount": 5359.01,
+    "date": "2026-08-02",
+    "customer": "C 科技",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260803055",
+    "amount": 3449.63,
+    "date": "2026-08-03",
+    "customer": "H 教育",
+    "product": "苏办·企业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260804029",
+    "amount": 3619.64,
+    "date": "2026-08-04",
+    "customer": "C 科技",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260804052",
+    "amount": 1188.52,
+    "date": "2026-08-04",
+    "customer": "C 科技",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260804054",
+    "amount": 4315.91,
+    "date": "2026-08-04",
+    "customer": "F 零售",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260804060",
+    "amount": 3055.58,
+    "date": "2026-08-04",
+    "customer": "F 零售",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260805010",
+    "amount": 2535.73,
+    "date": "2026-08-05",
+    "customer": "F 零售",
+    "product": "苏办·企业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260808016",
+    "amount": 5171.5,
+    "date": "2026-08-08",
+    "customer": "F 零售",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260808018",
+    "amount": 5279.48,
+    "date": "2026-08-08",
+    "customer": "H 教育",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260812005",
+    "amount": 952.92,
+    "date": "2026-08-12",
+    "customer": "G 物流",
+    "product": "苏办·企业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260813047",
+    "amount": 278.71,
+    "date": "2026-08-13",
+    "customer": "G 物流",
+    "product": "苏办·专业版",
+    "status": "paid"
+  },
+  {
+    "id": "O20260814038",
+    "amount": 7598.47,
+    "date": "2026-08-14",
+    "customer": "D 贸易",
+    "product": "AI 助手模块",
+    "status": "paid"
+  },
+  {
+    "id": "O20260814057",
+    "amount": 420.67,
+    "date": "2026-08-14",
+    "customer": "G 物流",
+    "product": "苏办·旗舰版",
+    "status": "paid"
+  }
+]

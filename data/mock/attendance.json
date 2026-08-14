@@ -1,0 +1,1577 @@
+[
+  {
+    "emp_id": "001",
+    "date": "2026-07-24",
+    "check_in": "08:52",
+    "check_out": "19:69",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-07-24",
+    "check_in": "08:44",
+    "check_out": "18:17",
+    "status": "normal"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-07-24",
+    "check_in": "08:58",
+    "check_out": "19:48",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-07-24",
+    "check_in": "08:90",
+    "check_out": "18:06",
+    "status": "normal"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-07-24",
+    "check_in": "08:76",
+    "check_out": "18:09",
+    "status": "normal"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-07-24",
+    "check_in": "08:81",
+    "check_out": "19:138",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-07-24",
+    "check_in": "08:61",
+    "check_out": "18:37",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-07-24",
+    "check_in": "08:62",
+    "check_out": "18:09",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-07-24",
+    "check_in": "08:55",
+    "check_out": "18:53",
+    "status": "normal"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-07-24",
+    "check_in": "08:93",
+    "check_out": "18:08",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-07-24",
+    "check_in": "08:70",
+    "check_out": "18:18",
+    "status": "normal"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-07-24",
+    "check_in": "10:14",
+    "check_out": "18:08",
+    "status": "late"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-07-24",
+    "check_in": "08:54",
+    "check_out": "18:10",
+    "status": "normal"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-07-24",
+    "check_in": "08:61",
+    "check_out": "18:04",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-07-24",
+    "check_in": "08:40",
+    "check_out": "18:07",
+    "status": "normal"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-07-27",
+    "check_in": "08:46",
+    "check_out": "18:11",
+    "status": "normal"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-07-27",
+    "check_in": "08:72",
+    "check_out": "18:06",
+    "status": "normal"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-07-27",
+    "check_in": "08:40",
+    "check_out": "18:54",
+    "status": "normal"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-07-27",
+    "check_in": "08:64",
+    "check_out": "18:50",
+    "status": "normal"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-07-27",
+    "check_in": "08:77",
+    "check_out": "18:35",
+    "status": "normal"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-07-27",
+    "check_in": "08:60",
+    "check_out": "18:15",
+    "status": "normal"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-07-27",
+    "check_in": "08:48",
+    "check_out": "18:36",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-07-27",
+    "check_in": "08:94",
+    "check_out": "18:06",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-07-27",
+    "check_in": "10:35",
+    "check_out": "18:02",
+    "status": "late"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-07-27",
+    "check_in": "08:65",
+    "check_out": "18:00",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-07-27",
+    "check_in": "08:60",
+    "check_out": "18:46",
+    "status": "normal"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-07-27",
+    "check_in": "08:83",
+    "check_out": "18:02",
+    "status": "normal"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-07-27",
+    "check_in": "08:86",
+    "check_out": "18:08",
+    "status": "normal"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-07-27",
+    "check_in": "08:86",
+    "check_out": "18:05",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-07-27",
+    "check_in": "08:52",
+    "check_out": "18:35",
+    "status": "normal"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-07-28",
+    "check_in": "08:89",
+    "check_out": "18:53",
+    "status": "normal"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-07-28",
+    "check_in": "08:50",
+    "check_out": "18:02",
+    "status": "normal"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-07-28",
+    "check_in": "08:73",
+    "check_out": "18:26",
+    "status": "normal"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-07-28",
+    "check_in": "08:70",
+    "check_out": "18:59",
+    "status": "normal"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-07-28",
+    "check_in": "08:75",
+    "check_out": "18:18",
+    "status": "normal"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-07-28",
+    "check_in": "08:68",
+    "check_out": "19:104",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-07-28",
+    "check_in": "08:80",
+    "check_out": "19:110",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-07-28",
+    "check_in": "08:68",
+    "check_out": "18:10",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-07-28",
+    "check_in": "08:73",
+    "check_out": "19:116",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-07-28",
+    "check_in": "08:83",
+    "check_out": "18:15",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-07-28",
+    "check_in": "08:53",
+    "check_out": "18:22",
+    "status": "normal"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-07-28",
+    "check_in": "08:88",
+    "check_out": "19:42",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-07-28",
+    "check_in": "08:62",
+    "check_out": "18:58",
+    "status": "normal"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-07-28",
+    "check_in": "10:12",
+    "check_out": "18:13",
+    "status": "late"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-07-28",
+    "check_in": null,
+    "check_out": null,
+    "status": "leave"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-07-29",
+    "check_in": "10:31",
+    "check_out": "18:00",
+    "status": "late"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-07-29",
+    "check_in": "08:55",
+    "check_out": "18:36",
+    "status": "normal"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-07-29",
+    "check_in": "08:83",
+    "check_out": "18:25",
+    "status": "normal"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-07-29",
+    "check_in": "08:48",
+    "check_out": "19:139",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-07-29",
+    "check_in": "08:78",
+    "check_out": "19:133",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-07-29",
+    "check_in": "08:89",
+    "check_out": "18:03",
+    "status": "normal"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-07-29",
+    "check_in": "08:50",
+    "check_out": "18:36",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-07-29",
+    "check_in": "08:82",
+    "check_out": "18:46",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-07-29",
+    "check_in": "08:56",
+    "check_out": "19:120",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-07-29",
+    "check_in": "08:78",
+    "check_out": "19:41",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-07-29",
+    "check_in": "08:55",
+    "check_out": "19:67",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-07-29",
+    "check_in": "08:55",
+    "check_out": "19:119",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-07-29",
+    "check_in": "08:80",
+    "check_out": "18:17",
+    "status": "normal"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-07-29",
+    "check_in": "08:47",
+    "check_out": "19:135",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-07-29",
+    "check_in": "08:53",
+    "check_out": "19:117",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-07-30",
+    "check_in": "08:74",
+    "check_out": "19:63",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-07-30",
+    "check_in": "08:42",
+    "check_out": "18:49",
+    "status": "normal"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-07-30",
+    "check_in": "08:67",
+    "check_out": "18:38",
+    "status": "normal"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-07-30",
+    "check_in": "08:81",
+    "check_out": "18:05",
+    "status": "normal"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-07-30",
+    "check_in": "08:51",
+    "check_out": "18:35",
+    "status": "normal"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-07-30",
+    "check_in": "08:80",
+    "check_out": "18:08",
+    "status": "normal"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-07-30",
+    "check_in": "08:81",
+    "check_out": "18:54",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-07-30",
+    "check_in": "08:45",
+    "check_out": "18:00",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-07-30",
+    "check_in": "08:56",
+    "check_out": "18:53",
+    "status": "normal"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-07-30",
+    "check_in": "08:69",
+    "check_out": "18:10",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-07-30",
+    "check_in": "08:83",
+    "check_out": "18:58",
+    "status": "normal"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-07-30",
+    "check_in": null,
+    "check_out": null,
+    "status": "leave"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-07-30",
+    "check_in": "08:94",
+    "check_out": "18:59",
+    "status": "normal"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-07-30",
+    "check_in": "08:50",
+    "check_out": "18:14",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-07-30",
+    "check_in": "08:49",
+    "check_out": "18:30",
+    "status": "normal"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-07-31",
+    "check_in": "08:49",
+    "check_out": "19:89",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-07-31",
+    "check_in": "08:52",
+    "check_out": "19:53",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-07-31",
+    "check_in": "08:77",
+    "check_out": "19:90",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-07-31",
+    "check_in": "08:43",
+    "check_out": "19:52",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-07-31",
+    "check_in": null,
+    "check_out": null,
+    "status": "leave"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-07-31",
+    "check_in": "08:41",
+    "check_out": "18:08",
+    "status": "normal"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-07-31",
+    "check_in": "08:50",
+    "check_out": "18:56",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-07-31",
+    "check_in": "08:83",
+    "check_out": "18:14",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-07-31",
+    "check_in": null,
+    "check_out": null,
+    "status": "missing"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-07-31",
+    "check_in": "08:51",
+    "check_out": "18:34",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-07-31",
+    "check_in": "08:59",
+    "check_out": "18:25",
+    "status": "normal"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-07-31",
+    "check_in": "08:73",
+    "check_out": "18:23",
+    "status": "normal"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-07-31",
+    "check_in": "08:43",
+    "check_out": "18:10",
+    "status": "normal"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-07-31",
+    "check_in": "08:41",
+    "check_out": "18:24",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-07-31",
+    "check_in": "08:65",
+    "check_out": "18:55",
+    "status": "normal"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-08-03",
+    "check_in": "08:44",
+    "check_out": "18:07",
+    "status": "normal"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-08-03",
+    "check_in": null,
+    "check_out": null,
+    "status": "sick"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-08-03",
+    "check_in": "08:43",
+    "check_out": "18:18",
+    "status": "normal"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-08-03",
+    "check_in": "08:59",
+    "check_out": "18:45",
+    "status": "normal"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-08-03",
+    "check_in": "08:61",
+    "check_out": "18:45",
+    "status": "normal"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-08-03",
+    "check_in": "08:40",
+    "check_out": "19:142",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-08-03",
+    "check_in": "08:93",
+    "check_out": "18:49",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-08-03",
+    "check_in": "08:77",
+    "check_out": "18:09",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-08-03",
+    "check_in": "10:06",
+    "check_out": "18:15",
+    "status": "late"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-08-03",
+    "check_in": "08:84",
+    "check_out": "18:20",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-08-03",
+    "check_in": "08:59",
+    "check_out": "19:74",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-08-03",
+    "check_in": "08:52",
+    "check_out": "19:52",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-08-03",
+    "check_in": "10:21",
+    "check_out": "18:05",
+    "status": "late"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-08-03",
+    "check_in": "08:83",
+    "check_out": "18:10",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-08-03",
+    "check_in": "08:67",
+    "check_out": "18:01",
+    "status": "normal"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-08-04",
+    "check_in": "08:43",
+    "check_out": "19:72",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-08-04",
+    "check_in": "10:36",
+    "check_out": "18:24",
+    "status": "late"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-08-04",
+    "check_in": "08:53",
+    "check_out": "19:139",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-08-04",
+    "check_in": "08:75",
+    "check_out": "19:143",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-08-04",
+    "check_in": "08:79",
+    "check_out": "19:143",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-08-04",
+    "check_in": null,
+    "check_out": null,
+    "status": "sick"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-08-04",
+    "check_in": "08:43",
+    "check_out": "18:41",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-08-04",
+    "check_in": null,
+    "check_out": null,
+    "status": "sick"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-08-04",
+    "check_in": "08:56",
+    "check_out": "18:39",
+    "status": "normal"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-08-04",
+    "check_in": "08:89",
+    "check_out": "18:57",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-08-04",
+    "check_in": "08:49",
+    "check_out": "18:24",
+    "status": "normal"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-08-04",
+    "check_in": "08:61",
+    "check_out": "18:08",
+    "status": "normal"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-08-04",
+    "check_in": null,
+    "check_out": null,
+    "status": "sick"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-08-04",
+    "check_in": "08:44",
+    "check_out": "18:28",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-08-04",
+    "check_in": "10:35",
+    "check_out": "18:00",
+    "status": "late"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-08-05",
+    "check_in": "08:85",
+    "check_out": "17:38",
+    "status": "early_leave"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-08-05",
+    "check_in": "10:35",
+    "check_out": "18:11",
+    "status": "late"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-08-05",
+    "check_in": "08:65",
+    "check_out": "18:45",
+    "status": "normal"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-08-05",
+    "check_in": null,
+    "check_out": null,
+    "status": "sick"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-08-05",
+    "check_in": "10:17",
+    "check_out": "18:02",
+    "status": "late"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-08-05",
+    "check_in": "08:71",
+    "check_out": "18:33",
+    "status": "normal"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-08-05",
+    "check_in": null,
+    "check_out": null,
+    "status": "leave"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-08-05",
+    "check_in": "08:62",
+    "check_out": "18:06",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-08-05",
+    "check_in": "08:91",
+    "check_out": "18:43",
+    "status": "normal"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-08-05",
+    "check_in": "08:85",
+    "check_out": "18:34",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-08-05",
+    "check_in": "08:59",
+    "check_out": "18:44",
+    "status": "normal"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-08-05",
+    "check_in": "08:94",
+    "check_out": "18:22",
+    "status": "normal"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-08-05",
+    "check_in": "08:47",
+    "check_out": "19:96",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-08-05",
+    "check_in": "08:55",
+    "check_out": "18:05",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-08-05",
+    "check_in": "08:71",
+    "check_out": "18:11",
+    "status": "normal"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-08-06",
+    "check_in": "08:60",
+    "check_out": "19:108",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-08-06",
+    "check_in": "08:73",
+    "check_out": "18:34",
+    "status": "normal"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-08-06",
+    "check_in": "08:45",
+    "check_out": "18:48",
+    "status": "normal"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-08-06",
+    "check_in": "08:49",
+    "check_out": "18:05",
+    "status": "normal"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-08-06",
+    "check_in": "08:74",
+    "check_out": "19:138",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-08-06",
+    "check_in": "08:56",
+    "check_out": "18:18",
+    "status": "normal"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-08-06",
+    "check_in": "08:90",
+    "check_out": "18:10",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-08-06",
+    "check_in": "08:49",
+    "check_out": "18:36",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-08-06",
+    "check_in": "08:90",
+    "check_out": "18:06",
+    "status": "normal"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-08-06",
+    "check_in": "08:47",
+    "check_out": "18:17",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-08-06",
+    "check_in": "08:49",
+    "check_out": "19:142",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-08-06",
+    "check_in": "08:72",
+    "check_out": "19:92",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-08-06",
+    "check_in": "08:81",
+    "check_out": "18:18",
+    "status": "normal"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-08-06",
+    "check_in": "08:70",
+    "check_out": "18:23",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-08-06",
+    "check_in": "08:43",
+    "check_out": "18:49",
+    "status": "normal"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-08-07",
+    "check_in": "08:77",
+    "check_out": "18:19",
+    "status": "normal"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-08-07",
+    "check_in": "08:46",
+    "check_out": "19:71",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-08-07",
+    "check_in": "08:78",
+    "check_out": "19:53",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-08-07",
+    "check_in": "08:88",
+    "check_out": "19:63",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-08-07",
+    "check_in": "08:60",
+    "check_out": "17:06",
+    "status": "early_leave"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-08-07",
+    "check_in": "08:71",
+    "check_out": "18:29",
+    "status": "normal"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-08-07",
+    "check_in": "08:57",
+    "check_out": "18:21",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-08-07",
+    "check_in": "08:56",
+    "check_out": "18:39",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-08-07",
+    "check_in": "08:51",
+    "check_out": "18:06",
+    "status": "normal"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-08-07",
+    "check_in": "08:76",
+    "check_out": "19:107",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-08-07",
+    "check_in": "08:49",
+    "check_out": "19:49",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-08-07",
+    "check_in": "08:86",
+    "check_out": "18:49",
+    "status": "normal"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-08-07",
+    "check_in": "08:72",
+    "check_out": "19:88",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-08-07",
+    "check_in": "08:71",
+    "check_out": "18:16",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-08-07",
+    "check_in": "08:56",
+    "check_out": "18:19",
+    "status": "normal"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-08-10",
+    "check_in": "08:85",
+    "check_out": "18:14",
+    "status": "normal"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-08-10",
+    "check_in": "08:42",
+    "check_out": "19:145",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-08-10",
+    "check_in": "08:60",
+    "check_out": "18:40",
+    "status": "normal"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-08-10",
+    "check_in": "08:55",
+    "check_out": "19:119",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-08-10",
+    "check_in": "08:63",
+    "check_out": "18:11",
+    "status": "normal"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-08-10",
+    "check_in": "08:52",
+    "check_out": "18:10",
+    "status": "normal"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-08-10",
+    "check_in": "08:76",
+    "check_out": "18:22",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-08-10",
+    "check_in": "08:52",
+    "check_out": "18:55",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-08-10",
+    "check_in": "08:66",
+    "check_out": "19:53",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-08-10",
+    "check_in": "08:57",
+    "check_out": "18:33",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-08-10",
+    "check_in": "08:85",
+    "check_out": "18:00",
+    "status": "normal"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-08-10",
+    "check_in": "08:81",
+    "check_out": "18:54",
+    "status": "normal"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-08-10",
+    "check_in": "08:44",
+    "check_out": "19:133",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-08-10",
+    "check_in": "08:83",
+    "check_out": "18:38",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-08-10",
+    "check_in": "08:75",
+    "check_out": "18:16",
+    "status": "normal"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-08-11",
+    "check_in": "08:74",
+    "check_out": "18:31",
+    "status": "normal"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-08-11",
+    "check_in": "08:67",
+    "check_out": "18:32",
+    "status": "normal"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-08-11",
+    "check_in": "08:77",
+    "check_out": "19:70",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-08-11",
+    "check_in": null,
+    "check_out": null,
+    "status": "sick"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-08-11",
+    "check_in": "08:92",
+    "check_out": "18:11",
+    "status": "normal"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-08-11",
+    "check_in": "08:45",
+    "check_out": "18:37",
+    "status": "normal"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-08-11",
+    "check_in": "10:28",
+    "check_out": "18:18",
+    "status": "late"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-08-11",
+    "check_in": "08:83",
+    "check_out": "18:17",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-08-11",
+    "check_in": "08:92",
+    "check_out": "18:15",
+    "status": "normal"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-08-11",
+    "check_in": "08:41",
+    "check_out": "18:43",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-08-11",
+    "check_in": "08:66",
+    "check_out": "18:25",
+    "status": "normal"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-08-11",
+    "check_in": "08:88",
+    "check_out": "18:40",
+    "status": "normal"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-08-11",
+    "check_in": "08:73",
+    "check_out": "18:40",
+    "status": "normal"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-08-11",
+    "check_in": "08:71",
+    "check_out": "18:02",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-08-11",
+    "check_in": "08:82",
+    "check_out": "18:01",
+    "status": "normal"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-08-12",
+    "check_in": "08:84",
+    "check_out": "18:03",
+    "status": "normal"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-08-12",
+    "check_in": "08:50",
+    "check_out": "18:14",
+    "status": "normal"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-08-12",
+    "check_in": "08:87",
+    "check_out": "18:02",
+    "status": "normal"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-08-12",
+    "check_in": "08:77",
+    "check_out": "18:46",
+    "status": "normal"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-08-12",
+    "check_in": "08:81",
+    "check_out": "18:52",
+    "status": "normal"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-08-12",
+    "check_in": "08:63",
+    "check_out": "18:14",
+    "status": "normal"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-08-12",
+    "check_in": "08:85",
+    "check_out": "18:16",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-08-12",
+    "check_in": "08:62",
+    "check_out": "18:04",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-08-12",
+    "check_in": null,
+    "check_out": null,
+    "status": "missing"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-08-12",
+    "check_in": "08:60",
+    "check_out": "19:42",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-08-12",
+    "check_in": "08:48",
+    "check_out": "18:13",
+    "status": "normal"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-08-12",
+    "check_in": "08:58",
+    "check_out": "18:59",
+    "status": "normal"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-08-12",
+    "check_in": "08:90",
+    "check_out": "18:33",
+    "status": "normal"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-08-12",
+    "check_in": "08:42",
+    "check_out": "18:25",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-08-12",
+    "check_in": "08:71",
+    "check_out": "18:11",
+    "status": "normal"
+  },
+  {
+    "emp_id": "001",
+    "date": "2026-08-13",
+    "check_in": "08:73",
+    "check_out": "18:01",
+    "status": "normal"
+  },
+  {
+    "emp_id": "002",
+    "date": "2026-08-13",
+    "check_in": "08:50",
+    "check_out": "18:54",
+    "status": "normal"
+  },
+  {
+    "emp_id": "003",
+    "date": "2026-08-13",
+    "check_in": "08:70",
+    "check_out": "18:47",
+    "status": "normal"
+  },
+  {
+    "emp_id": "004",
+    "date": "2026-08-13",
+    "check_in": "10:29",
+    "check_out": "18:29",
+    "status": "late"
+  },
+  {
+    "emp_id": "005",
+    "date": "2026-08-13",
+    "check_in": "08:80",
+    "check_out": "18:05",
+    "status": "normal"
+  },
+  {
+    "emp_id": "006",
+    "date": "2026-08-13",
+    "check_in": "08:54",
+    "check_out": "18:52",
+    "status": "normal"
+  },
+  {
+    "emp_id": "007",
+    "date": "2026-08-13",
+    "check_in": "08:54",
+    "check_out": "18:15",
+    "status": "normal"
+  },
+  {
+    "emp_id": "008",
+    "date": "2026-08-13",
+    "check_in": "08:43",
+    "check_out": "18:11",
+    "status": "normal"
+  },
+  {
+    "emp_id": "009",
+    "date": "2026-08-13",
+    "check_in": "08:49",
+    "check_out": "18:13",
+    "status": "normal"
+  },
+  {
+    "emp_id": "010",
+    "date": "2026-08-13",
+    "check_in": "08:66",
+    "check_out": "18:32",
+    "status": "normal"
+  },
+  {
+    "emp_id": "011",
+    "date": "2026-08-13",
+    "check_in": "08:93",
+    "check_out": "18:03",
+    "status": "normal"
+  },
+  {
+    "emp_id": "012",
+    "date": "2026-08-13",
+    "check_in": "08:78",
+    "check_out": "18:29",
+    "status": "normal"
+  },
+  {
+    "emp_id": "013",
+    "date": "2026-08-13",
+    "check_in": "08:54",
+    "check_out": "19:74",
+    "status": "overtime"
+  },
+  {
+    "emp_id": "014",
+    "date": "2026-08-13",
+    "check_in": "08:54",
+    "check_out": "18:03",
+    "status": "normal"
+  },
+  {
+    "emp_id": "015",
+    "date": "2026-08-13",
+    "check_in": "08:86",
+    "check_out": "18:13",
+    "status": "normal"
+  }
+]
