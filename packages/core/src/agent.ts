@@ -3,7 +3,14 @@ import type { LlmProvider } from './llm.ts';
 import { estimateCostUsd, estimateTokens } from './llm.ts';
 import type { Embedder } from './embed.ts';
 import type { SearchChunk } from './rag.ts';
-import { buildContext, extractCitationRefs, resolveCitations, retrieve, validateQuotes } from './rag.ts';
+import {
+  autoExcerptLine,
+  buildContext,
+  extractCitationRefs,
+  resolveCitations,
+  retrieve,
+  validateQuotes,
+} from './rag.ts';
 import { buildSystemPrompt, historyToMessages } from './prompts.ts';
 import type { ToolDefinition } from './types.ts';
 
@@ -127,9 +134,22 @@ export async function runAgent(question: string, deps: AgentDeps, opts: RunOptio
     return quotes?.length ? { ...c, quotes } : c;
   });
 
+  // 兜底：模型漏摘录时，从被引用原文自动取一句逐字追加（保真，不依赖模型自觉）
+  let finalContent = quoteChecked.content;
+  let finalCitations = citations;
+  if (quoteChecked.quotes.length === 0 && citations.length > 0) {
+    const first = citations[0]!;
+    const chunkIdx = retrieved.findIndex((c) => c.chunkId === first.chunkId);
+    const line = chunkIdx >= 0 ? autoExcerptLine(retrieved[chunkIdx]!.content) : null;
+    if (line) {
+      finalContent = `${finalContent.trimEnd()}\n\n> ${line}[C${chunkIdx + 1}]`;
+      finalCitations = finalCitations.map((c, i) => (i === 0 ? { ...c, quotes: [line] } : c));
+    }
+  }
+
   return {
-    content: quoteChecked.content,
-    citations,
+    content: finalContent,
+    citations: finalCitations,
     toolCalls: toolRecords,
     usage,
     retrievalCount: retrieved.length,

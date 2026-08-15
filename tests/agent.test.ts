@@ -124,6 +124,41 @@ describe('Agent 工具自主决策（Mock LLM，完全离线）', () => {
     expect(result.citations).toHaveLength(1);
     expect(result.citations[0]!.quotes).toEqual([quote]);
   });
+
+  it('模型漏摘录时自动从原文补一句逐字摘录（兜底保证）', async () => {
+    const llm = new FakeProvider([
+      {
+        match: /年假/,
+        content: '入职满 1 年每年 5 天带薪年假。[C1]', // 没有 > 摘录行
+      },
+    ]);
+    const deps = {
+      llm,
+      llmModel: 'fake-model',
+      embedder: {
+        dim: 4,
+        ready: async () => {},
+        embed: async (ts: string[]) => ts.map(() => [0, 0, 0, 0]),
+      },
+      toolDefs: [] as never[],
+      executeTool: async () => ({ ok: false as const, error: '无工具' }),
+      listChunks: () => [
+        {
+          chunkId: 'c1',
+          docId: 'd1',
+          docName: '员工手册.md',
+          seq: 4,
+          heading: '员工手册（苏云科技） > 2.1 年假',
+          content: '### 2.1 年假\n- 入职满 1 年的员工，每年享有 5 天带薪年假。',
+          embedding: new Uint8Array(16),
+        },
+      ],
+      history: [] as Array<{ role: string; content: string }>,
+    };
+    const result = await runAgent('年假有几天？', deps);
+    expect(result.content).toContain('> 入职满 1 年的员工，每年享有 5 天带薪年假。[C1]');
+    expect(result.citations[0]!.quotes).toEqual(['入职满 1 年的员工，每年享有 5 天带薪年假。']);
+  });
 });
 
 describe('工具执行器', () => {

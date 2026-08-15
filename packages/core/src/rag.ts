@@ -431,3 +431,21 @@ export function citationLocator(c: { heading: string | null; snippet: string }):
     .find(Boolean);
   return firstLine ? firstLine.slice(0, 40) : '';
 }
+
+/**
+ * 从分块原文中自动取一句适合作为摘录的句子（模型漏摘录时的兜底）：
+ * 跳过标题/项目符号，找第一句足够长、含汉字、像完整句子的内容。
+ */
+export function autoExcerptLine(content: string): string | null {
+  for (const raw of content.split('\n')) {
+    const line = raw
+      .replace(/^#{1,4}\s*/, '')
+      .replace(/^[-*•]\s*/, '')
+      .trim();
+    if (line.length < 12) continue;
+    if (!/[\u4e00-\u9fa5]/.test(line)) continue;
+    if (!/[。；;！!？?]$/.test(line) && line.length < 20) continue;
+    return line.length <= 60 ? line : line.slice(0, 60);
+  }
+  return null;
+}

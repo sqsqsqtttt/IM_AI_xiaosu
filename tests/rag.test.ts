@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  autoExcerptLine,
   chunkMarkdown,
   chunkText,
   citationLocator,
@@ -128,5 +129,18 @@ describe('人类可读位置描述（面向员工）', () => {
       snippet: '',
     });
     expect(loc).not.toContain('块');
+  });
+});
+
+describe('自动摘录兜底（模型漏摘录时取原文句子）', () => {
+  it('跳过标题与短行，取第一条完整句子', () => {
+    const line = autoExcerptLine(
+      '### 2.1 年假\n- 入职满 1 年的员工，每年享有 5 天带薪年假。\n- 工龄每满 1 年，年假增加 1 天。',
+    );
+    expect(line).toBe('入职满 1 年的员工，每年享有 5 天带薪年假。');
+  });
+
+  it('纯标题文档取不到句子时返回 null', () => {
+    expect(autoExcerptLine('### 标题\n小节\n备注')).toBeNull();
   });
 });
