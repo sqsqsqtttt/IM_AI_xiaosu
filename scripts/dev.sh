@@ -49,6 +49,7 @@ stop() {
 }
 trap stop EXIT INT TERM
 
-echo "[dev] 后端: http://localhost:3000  |  前端: http://localhost:5173"
-echo "[dev] 停止请按 Ctrl+C（只会看到一条停止提示）"
+echo "[dev] 前端页面: http://localhost:5173  （日常访问这个）"
+echo "[dev] 后端 API: http://localhost:3000  （仅接口，开发模式下不提供页面）"
+echo "[dev] 停止请按 Ctrl+C"
 wait

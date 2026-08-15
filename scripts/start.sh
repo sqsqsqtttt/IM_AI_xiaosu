@@ -14,4 +14,5 @@ if [ ! -d apps/web/dist ]; then
 fi
 
 mkdir -p logs data/mock
+export NODE_ENV=production
 exec pnpm --filter @xiaosu/server start

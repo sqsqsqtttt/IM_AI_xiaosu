@@ -40,8 +40,9 @@ export function buildApp(deps: BuildAppDeps): Fastify.FastifyInstance {
   registerMockRoutes(app, deps.services);
   registerStatusRoutes(app, deps.services, deps.statusRepo, deps.config);
 
-  // 生产模式：托管 Web 构建产物 + SPA 路由回退
-  if (existsSync(deps.webDist)) {
+  // 生产模式（NODE_ENV=production）：3000 单端口托管 Web 构建产物 + SPA 路由回退；
+  // 开发模式下 3000 只做 API，页面由 Vite(5173) 提供，避免两个端口出现两份页面造成混淆。
+  if (process.env.NODE_ENV === 'production' && existsSync(deps.webDist)) {
     const indexHtml = join(deps.webDist, 'index.html');
     app.register(fastifyStatic, {
       root: deps.webDist,
@@ -63,6 +64,11 @@ export function buildApp(deps: BuildAppDeps): Fastify.FastifyInstance {
         return reply.code(404).send({ error: '前端未构建' });
       }
     });
+  } else {
+    app.get('/', async () => ({
+      name: '小苏后端 API',
+      message: '开发模式下前端请访问 http://localhost:5173（由 Vite 提供）',
+    }));
   }
 
   app.setErrorHandler((err, req, reply) => {
