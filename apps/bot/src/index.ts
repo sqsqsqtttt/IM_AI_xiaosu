@@ -1,4 +1,5 @@
 import { DWClient, EventAck, TOPIC_ROBOT, type DWClientDownStream } from 'dingtalk-stream';
+import { AiCardClient, type AiCardSession, type CardTarget } from './aiCard.ts';
 
 export interface BotLogger {
   info(obj: unknown, msg?: string): void;
@@ -26,14 +27,16 @@ export interface BotReply {
 export interface BotHandlers {
   /**
    * 处理一条消息：持久化 + 运行 Agent，返回要回复的文案。
-   * 抛错时由适配层兜底回复。
+   * onDelta 提供增量文本（AI 卡片打字机用），抛错时由适配层兜底回复。
    */
-  onMessage(msg: BotMessage): Promise<BotReply>;
+  onMessage(msg: BotMessage, onDelta?: (text: string) => void): Promise<BotReply>;
 }
 
 export interface DingtalkBotOptions {
   appKey: string;
   appSecret: string;
+  /** 启用 AI 卡片流式打字机；创建卡片失败自动降级为文本回复。 */
+  aiCard: boolean;
   handlers: BotHandlers;
   logger: BotLogger;
 }
@@ -176,26 +179,80 @@ export function createDingtalkBot(opts: DingtalkBotOptions): DingtalkBot {
 
   async function handleMessage(msg: BotMessage): Promise<void> {
     const started = Date.now();
-    // 立即回执，避免用户干等（流式感知体验；失败不影响主流程）
-    try {
-      await sendSessionReply(msg, '🤔 小苏正在思考…');
-    } catch {
-      // 回执失败忽略，最终回答仍会发送
+
+    // 1. AI 卡片模式：创建并投放流式卡片；失败则降级为文本回复
+    const cardClient = opts.aiCard
+      ? new AiCardClient({ appKey: opts.appKey, appSecret: opts.appSecret, log: opts.logger })
+      : null;
+    let card: AiCardSession | null = null;
+    if (cardClient) {
+      try {
+        const target: CardTarget = {
+          appKey: opts.appKey,
+          conversationId: msg.conversationId,
+          conversationType: msg.conversationType,
+          senderStaffId: msg.userId,
+        };
+        card = await cardClient.start(target, '小苏');
+      } catch (e) {
+        opts.logger.warn({ err: String(e) }, 'AI 卡片创建失败，降级为文本回复');
+        card = null;
+      }
     }
+
+    if (!card) {
+      // 文本模式：先回执避免用户干等
+      try {
+        await sendSessionReply(msg, '🤔 小苏正在思考…');
+      } catch {
+        // 回执失败忽略，最终回答仍会发送
+      }
+    }
+
     try {
-      const reply = await opts.handlers.onMessage(msg);
-      const text = reply.text || '（小苏没有想好怎么回答）';
-      await sendSessionReply(msg, text);
+      // 2. 跑 Agent：AI 卡片模式把增量文本按节流节奏推进卡片（打字机）
+      let acc = '';
+      let lastPush = 0;
+      const onDelta = card
+        ? (t: string) => {
+            acc += t;
+            const now = Date.now();
+            if (now - lastPush >= 450) {
+              lastPush = now;
+              void card!.streaming(acc).catch(() => {});
+            }
+          }
+        : undefined;
+
+      const reply = await opts.handlers.onMessage(msg, onDelta);
+      const text = stripMarkdown(reply.text || '（小苏没有想好怎么回答）');
+
+      if (card) {
+        // 官方踩坑经验：finish 推不动流式内容，收尾前必须补推最后一截
+        await card.streaming(text).catch(() => {});
+        await card.finish(text);
+      } else {
+        await sendSessionReply(msg, text);
+      }
       opts.logger.info(
         { conversationId: msg.conversationId, latencyMs: Date.now() - started },
         '钉钉消息已回复',
       );
     } catch (e) {
       opts.logger.error({ err: String(e) }, '处理钉钉消息失败，发送兜底回复');
-      try {
-        await sendSessionReply(msg, '小苏开小差了，请稍后再试 😅');
-      } catch (e2) {
-        opts.logger.error({ err: String(e2) }, '兜底回复也发送失败');
+      const fallback = '小苏开小差了，请稍后再试 😅';
+      if (card) {
+        try {
+          await card.fail(fallback);
+        } catch {
+          // 卡片失败态更新失败则忽略
+        }
+      } else {
+        try {
+          await sendSessionReply(msg, fallback);
+        } catch (e2) {
+          opts.logger.error({ err: String(e2) }, '兜底回复也发送失败');
+        }
       }
     }
   }
@@ -242,3 +299,5 @@ export function createDingtalkBot(opts: DingtalkBotOptions): DingtalkBot {
     },
   };
 }
+
+export * from './aiCard.ts';

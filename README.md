@@ -107,12 +107,12 @@ bash scripts/dev.sh
 
 ```
 apps/server/    Fastify：路由（documents/chat/logs/settings/mock/status）+ 服务编排 + 启动
-apps/bot/       钉钉 Stream 适配（事件解析/去重/sessionWebhook 回复/兜底）
+apps/bot/       钉钉 Stream 适配（事件解析/去重/消息回复/AI 卡片流式打字机/兜底）
 apps/web/       React 管理后台（文档库/日志/设置/聊天页/原文高亮）
 packages/core/  Agent/RAG/LLM Provider/嵌入器/工具注册表/prompt（平台无关，可复用）
 packages/db/    SQLite 仓储（文档/分块/会话/消息/设置/心跳）
 scripts/        dev/build/test/start/seed + 冒烟脚本（*.sh 统一入口）
-tests/          Vitest（RAG/工具决策/增量更新/会话隔离/HTTP）
+tests/          Vitest（RAG/工具决策/增量更新/会话隔离/HTTP/AI 卡片请求体）
 data/           seed 知识库文档、mock 内部数据（uploads 与 *.db 运行时生成，不入库）
 logs/           运行时日志（不入库）
 ```
@@ -124,6 +124,14 @@ logs/           运行时日志（不入库）
 3. 应用能力 → 添加**机器人** → 消息接收模式选 **Stream** → 保存并**发布**版本；
 4. `.env` 中设置 `DINGTALK_ENABLED=true` 与 `DINGTALK_APP_KEY/SECRET`，重启服务；
 5. 把测试成员（如面试官）加入测试组织，建群并把机器人拉进群 → @小苏 提问；单聊可直接搜索机器人私聊。
+
+### AI 卡片流式打字机（加分项，可选）
+
+机器人默认以 **AI 卡片**回复：卡片显示"输入中"指示，正文**逐字打字机式输出**，结尾带"📚 来源"，状态转为完成。全部走出站 REST 调用，**无需公网地址**。
+
+- 需在开发者后台「权限管理」开通 **Card.Instance.Write** 与 **Card.Streaming.Write** 两个权限，并**重新发布**应用；
+- 未开通时自动降级为普通文本回复（不影响其他功能）；
+- `.env` 中 `DINGTALK_AI_CARD=false` 可强制关闭卡片模式。
 
 > 常见问题：机器人不回消息时先看 `logs/` 与后台「设置」页的 IM 状态；Stream 模式对机器人消息有频率限制（单人测试无影响）。
 
@@ -139,7 +147,8 @@ logs/           运行时日志（不入库）
 ## Roadmap
 
 - [ ] 多模型适配 UI（Provider 抽象已就绪，可接 OpenAI/智谱/硅基流动）
-- [x] Evals：22 条自动化评测（`bash scripts/eval.sh`，需要真实 API Key）
+- [x] Evals：23 条自动化评测（`bash scripts/eval.sh`，需要真实 API Key）
+- [x] IM 富消息：AI 卡片流式打字机（内置官方模板，需卡片权限）
 - [ ] IM 富消息：ActionCard「查看原文」按钮（配置 `PUBLIC_BASE_URL` 后启用）
 - [ ] 多端 IM：飞书/企业微信复用 `core` Agent（`apps/bot` 抽平台接口）
 - [ ] Token/成本看板聚合视图

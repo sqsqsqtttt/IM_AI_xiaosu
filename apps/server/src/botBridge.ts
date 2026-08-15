@@ -20,9 +20,10 @@ export function startBotIfEnabled(
   const bot = createDingtalkBot({
     appKey: config.dingtalk.appKey,
     appSecret: config.dingtalk.appSecret,
+    aiCard: config.dingtalk.aiCard,
     logger,
     handlers: {
-      onMessage: (msg) => services.chat.runIM(msg),
+      onMessage: (msg, onDelta) => services.chat.runIM(msg, onDelta),
     },
   });
   return { bot };

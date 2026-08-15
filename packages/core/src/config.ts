@@ -14,6 +14,8 @@ const EnvSchema = z.object({
   DINGTALK_ENABLED: z.string().default('false'),
   DINGTALK_APP_KEY: z.string().default(''),
   DINGTALK_APP_SECRET: z.string().default(''),
+  /** AI 卡片流式打字机（需开通 Card.Instance.Write / Card.Streaming.Write 权限） */
+  DINGTALK_AI_CARD: z.string().default('true'),
   PORT: z.coerce.number().default(3000),
   PUBLIC_BASE_URL: z.string().default(''),
   DB_PATH: z.string().default('./data/xiaosu.db'),
@@ -32,7 +34,7 @@ export interface AppConfig {
     apiKey: string;
     hfEndpoint: string;
   };
-  dingtalk: { enabled: boolean; appKey: string; appSecret: string };
+  dingtalk: { enabled: boolean; appKey: string; appSecret: string; aiCard: boolean };
   server: { port: number; publicBaseUrl: string };
   paths: { dbPath: string; logDir: string; dataDir: string };
 }
@@ -53,6 +55,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
       enabled: e.DINGTALK_ENABLED === 'true',
       appKey: e.DINGTALK_APP_KEY,
       appSecret: e.DINGTALK_APP_SECRET,
+      aiCard: e.DINGTALK_AI_CARD === 'true',
     },
     server: { port: e.PORT, publicBaseUrl: e.PUBLIC_BASE_URL },
     paths: { dbPath: e.DB_PATH, logDir: e.LOG_DIR, dataDir: e.DATA_DIR },

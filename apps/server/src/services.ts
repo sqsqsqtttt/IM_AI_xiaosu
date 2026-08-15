@@ -112,9 +112,9 @@ export function createServices(deps: ServiceDeps) {
       return core('web', 'web-user', input.conversationId, input.question, input.onDelta, input.signal);
     },
 
-    /** 钉钉入口（非流式，返回含引用的回复文案）。 */
-    async runIM(msg: BotMessage): Promise<BotReply> {
-      const result = await core('dingtalk', msg.userId, msg.conversationId, msg.text);
+    /** 钉钉入口（支持 onDelta 流式回调，供 AI 卡片打字机使用）。 */
+    async runIM(msg: BotMessage, onDelta?: (t: string) => void): Promise<BotReply> {
+      const result = await core('dingtalk', msg.userId, msg.conversationId, msg.text, onDelta);
       const citationText: Array<{ docName: string; heading: string | null }> = result.citations.map(
         (c: Citation) => ({ docName: c.docName, heading: c.heading }),
       );
