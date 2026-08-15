@@ -52,7 +52,7 @@ export interface RetrievedChunk {
   score: number;
 }
 
-/** 答案引用（可点击定位到原文分块）。 */
+/** 答案引用（可点击定位到原文分块，并精确标记摘录原话）。 */
 export interface Citation {
   docId: string;
   docName: string;
@@ -60,6 +60,8 @@ export interface Citation {
   seq: number;
   heading: string | null;
   snippet: string;
+  /** 该引用对应的逐字摘录原话（用于原文精确标记，去除了 [C#]）。 */
+  quotes?: string[];
 }
 
 /** 一次工具调用的完整记录（写入对话日志）。 */

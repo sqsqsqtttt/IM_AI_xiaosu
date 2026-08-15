@@ -26,6 +26,8 @@ export interface Citation {
   seq: number;
   heading: string | null;
   snippet: string;
+  /** 该引用对应的逐字摘录原话（原文精确标记用）。 */
+  quotes?: string[];
 }
 
 export interface ToolCallRecord {

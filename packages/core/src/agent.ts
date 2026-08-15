@@ -3,7 +3,7 @@ import type { LlmProvider } from './llm.ts';
 import { estimateCostUsd, estimateTokens } from './llm.ts';
 import type { Embedder } from './embed.ts';
 import type { SearchChunk } from './rag.ts';
-import { buildContext, resolveCitations, retrieve, validateQuotes } from './rag.ts';
+import { buildContext, extractCitationRefs, resolveCitations, retrieve, validateQuotes } from './rag.ts';
 import { buildSystemPrompt, historyToMessages } from './prompts.ts';
 import type { ToolDefinition } from './types.ts';
 
@@ -106,9 +106,30 @@ export async function runAgent(question: string, deps: AgentDeps, opts: RunOptio
   const resolved = resolveCitations(res.content, retrieved);
   // 原文摘录校验：逐字比对检索结果，编造的摘录整行剔除
   const quoteChecked = validateQuotes(resolved.content, retrieved);
+
+  // 把逐字摘录挂到对应引用上（按摘录里的 [C#] 编号映射），供原文精确标记
+  const validRefs = extractCitationRefs(resolved.content).filter((n) => n <= retrieved.length);
+  const refToQuotes = new Map<number, string[]>();
+  for (const q of quoteChecked.quotes) {
+    const clean = q.replace(/\[C\d+\]/g, '').trim();
+    if (!clean) continue;
+    const refs = extractCitationRefs(q).filter((n) => n <= retrieved.length);
+    for (const r of refs.length ? refs : [0]) {
+      if (r === 0) continue;
+      const arr = refToQuotes.get(r) ?? [];
+      if (!arr.includes(clean)) arr.push(clean);
+      refToQuotes.set(r, arr);
+    }
+  }
+  const citations = resolved.citations.map((c, i) => {
+    const ref = validRefs[i];
+    const quotes = ref ? refToQuotes.get(ref) : undefined;
+    return quotes?.length ? { ...c, quotes } : c;
+  });
+
   return {
     content: quoteChecked.content,
-    citations: resolved.citations,
+    citations,
     toolCalls: toolRecords,
     usage,
     retrievalCount: retrieved.length,

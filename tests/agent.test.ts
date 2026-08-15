@@ -88,6 +88,42 @@ describe('Agent 工具自主决策（Mock LLM，完全离线）', () => {
     expect(result.content).toContain('1280');
     expect(result.content).not.toContain('我先确认一下');
   });
+
+  it('逐字摘录挂到对应引用上（原文精确标记数据源）', async () => {
+    const quote = '入职满 1 年的员工，每年享有 5 天带薪年假。';
+    const llm = new FakeProvider([
+      {
+        match: /年假/,
+        content: `入职满 1 年每年 5 天。\n> ${quote} [C1]`,
+      },
+    ]);
+    const deps = {
+      llm,
+      llmModel: 'fake-model',
+      embedder: {
+        dim: 4,
+        ready: async () => {},
+        embed: async (ts: string[]) => ts.map(() => [0, 0, 0, 0]),
+      },
+      toolDefs: [] as never[],
+      executeTool: async () => ({ ok: false as const, error: '无工具' }),
+      listChunks: () => [
+        {
+          chunkId: 'c1',
+          docId: 'd1',
+          docName: '员工手册.md',
+          seq: 4,
+          heading: '员工手册（苏云科技） > 2.1 年假',
+          content: `${quote}工龄每满 1 年，年假增加 1 天。`,
+          embedding: new Uint8Array(16),
+        },
+      ],
+      history: [] as Array<{ role: string; content: string }>,
+    };
+    const result = await runAgent('年假有几天？', deps);
+    expect(result.citations).toHaveLength(1);
+    expect(result.citations[0]!.quotes).toEqual([quote]);
+  });
 });
 
 describe('工具执行器', () => {

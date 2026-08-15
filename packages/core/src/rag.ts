@@ -414,3 +414,20 @@ export function validateQuotes(
 export function readTextFile(path: string): string {
   return readFileSync(path, 'utf-8');
 }
+
+/**
+ * 面向员工的人类可读位置描述：
+ * 有章节路径 → 去掉文档标题段后的章节链（如 "2. 假期与考勤 › 2.1 年假"）；
+ * 无章节 → 取分块内容首行（如 "一、年假" / "第一条 标准工时…"）作为定位。
+ */
+export function citationLocator(c: { heading: string | null; snippet: string }): string {
+  if (c.heading) {
+    const parts = c.heading.split(' > ').map((s) => s.trim()).filter(Boolean);
+    if (parts.length > 1) return parts.slice(1).join(' › ');
+  }
+  const firstLine = c.snippet
+    .split('\n')
+    .map((s) => s.trim())
+    .find(Boolean);
+  return firstLine ? firstLine.slice(0, 40) : '';
+}

@@ -22,6 +22,13 @@ body {
   @apply inline-block text-[10px] font-semibold text-blue-700 bg-blue-100 border border-blue-200 rounded px-1 ml-0.5 align-super leading-none;
 }
 
+/* 原文摘录精确标记（荧光色） */
+.mark\:quote-hl,
+.md-body mark.quote-hl,
+mark.quote-hl {
+  @apply bg-yellow-200 text-slate-900 rounded px-0.5;
+}
+
 /* 原文摘录引用块：高亮醒目（答案中的 > 引用） */
 .md-body blockquote {
   @apply relative bg-amber-50 border-amber-300 text-amber-900 rounded-r-lg pl-4 pr-3 py-1.5 my-2.5 leading-relaxed;

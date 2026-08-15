@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   chunkMarkdown,
   chunkText,
+  citationLocator,
   extractCitationRefs,
   resolveCitations,
   validateQuotes,
@@ -104,5 +105,28 @@ describe('原文摘录校验（防编造原话）', () => {
     expect(quotes).toHaveLength(0);
     expect(content).not.toContain('编造');
     expect(content).toContain('正文保留');
+  });
+});
+
+describe('人类可读位置描述（面向员工）', () => {
+  it('有章节路径：去掉文档标题段，输出章节链', () => {
+    const loc = citationLocator({
+      heading: '员工手册（苏云科技） > 2. 假期与考勤 > 2.1 年假',
+      snippet: '',
+    });
+    expect(loc).toBe('2. 假期与考勤 › 2.1 年假');
+  });
+
+  it('无章节：取内容首行作为定位（如"一、年假"）', () => {
+    const loc = citationLocator({ heading: null, snippet: '一、年假\n入职满 1 年每年 5 天。' });
+    expect(loc).toBe('一、年假');
+  });
+
+  it('不出现开发者视角的"第 N 块"字样', () => {
+    const loc = citationLocator({
+      heading: '员工手册（苏云科技） > 2. 假期与考勤 > 2.1 年假',
+      snippet: '',
+    });
+    expect(loc).not.toContain('块');
   });
 });

@@ -115,11 +115,11 @@ export function createServices(deps: ServiceDeps) {
     /** 钉钉入口（支持 onDelta 流式回调，供 AI 卡片打字机使用）。 */
     async runIM(msg: BotMessage, onDelta?: (t: string) => void): Promise<BotReply> {
       const result = await core('dingtalk', msg.userId, msg.conversationId, msg.text, onDelta);
-      const citationText: Array<{ docName: string; heading: string | null; seq: number }> =
+      const citationText: Array<{ docName: string; heading: string | null; snippet: string }> =
         result.citations.map((c: Citation) => ({
           docName: c.docName,
           heading: c.heading,
-          seq: c.seq,
+          snippet: c.snippet,
         }));
       return { text: result.content + formatCitationsText(citationText) };
     },
