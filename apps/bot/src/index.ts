@@ -43,8 +43,8 @@ export interface DingtalkBotOptions {
 
 /**
  * 去 Markdown 化：钉钉 text 消息不渲染 Markdown，星号/井号会原样露出。
- * 把加粗/斜体/标题/列表/行内代码转成自然纯文本，并去掉正文中的 [C#] 引用标记
- * （引用来源已由文末的「📚 来源」清单呈现）。
+ * 把加粗/斜体/标题/列表/行内代码转成自然纯文本，去掉正文中的 [C#] 引用标记
+ * （引用来源已由文末的「📚 来源」清单呈现）；引用块原文转成「」括起，保持辨识度。
  */
 export function stripMarkdownForIM(text: string): string {
   return text
@@ -52,6 +52,7 @@ export function stripMarkdownForIM(text: string): string {
     .replace(/\*([^*\n]+)\*/g, '$1') // 斜体
     .replace(/^#{1,6}\s+/gm, '') // 标题
     .replace(/^[-*]\s+/gm, '· ') // 无序列表
+    .replace(/^>\s?(.+)$/gm, '「$1」') // 原文摘录 → 「」
     .replace(/`([^`\n]+)`/g, '$1') // 行内代码
     .replace(/\[C\d+\]/g, '') // 引用标记
     .trim();

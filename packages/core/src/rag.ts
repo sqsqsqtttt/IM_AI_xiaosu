@@ -350,6 +350,66 @@ export function resolveCitations(content: string, chunks: RetrievedChunk[]): {
   return { content: cleaned, citations };
 }
 
+// ---------------------------------------------------------------------------
+// 原文摘录（引用块）校验：摘录必须逐字出现在检索到的原文中，否则剔除（防编造原话）
+// ---------------------------------------------------------------------------
+
+/** 提取回答中的引用块（行首 > 的行）。 */
+export function extractQuotes(content: string): string[] {
+  const quotes: string[] = [];
+  for (const m of content.matchAll(/^>\s*(.+)$/gm)) {
+    if (m[1]) quotes.push(m[1]);
+  }
+  return quotes;
+}
+
+/** 归一化：去掉空白、Markdown 强调符号与引用编号，便于逐字比对。 */
+function normalizeForMatch(text: string): string {
+  return text
+    .replace(/\[C\d+\]/g, '')
+    .replace(/[*_`~#>\s]/g, '');
+}
+
+/**
+ * 校验引用块：每段摘录必须逐字出现在任一检索分块中（忽略空白与 Markdown 符号）。
+ * 对不上的摘录行整体移除；返回 { content, quotes }。
+ */
+export function validateQuotes(
+  content: string,
+  chunks: RetrievedChunk[],
+): { content: string; quotes: string[] } {
+  if (!chunks.length) {
+    // 无检索结果时全部摘录视为可疑，整行移除
+    const stripped = content.replace(/^>\s*.+$/gm, '').replace(/\n{3,}/g, '\n\n');
+    return { content: stripped, quotes: [] };
+  }
+  const haystacks = chunks.map((c) => normalizeForMatch(c.content));
+  const kept: string[] = [];
+  const removedLines = new Set<string>();
+  for (const q of extractQuotes(content)) {
+    const needle = normalizeForMatch(q);
+    const matched = needle.length >= 6 && haystacks.some((h) => h.includes(needle));
+    if (matched) {
+      kept.push(q);
+    } else {
+      removedLines.add(q.trim());
+    }
+  }
+  if (removedLines.size === 0) return { content, quotes: kept };
+  // 仅移除未通过校验的摘录行
+  const cleaned = content
+    .split('\n')
+    .filter((line) => {
+      const t = line.trim();
+      if (!t.startsWith('>')) return true;
+      const body = t.slice(1).trim();
+      return !removedLines.has(body);
+    })
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n');
+  return { content: cleaned, quotes: kept };
+}
+
 /** 读取本地文件（种子数据加载用）。 */
 export function readTextFile(path: string): string {
   return readFileSync(path, 'utf-8');

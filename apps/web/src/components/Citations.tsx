@@ -28,7 +28,8 @@ export default function Citations({ items }: { items: Citation[] }) {
             >
               {first.docName}
               {first.heading ? ` · ${first.heading}` : ''}
-              {cs.length > 1 ? `（${cs.length} 处）` : ''}
+              {`（第 ${first.seq} 块`}
+              {cs.length > 1 ? `等 ${cs.length} 处` : ''}）
             </Link>
           );
         })}

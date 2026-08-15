@@ -3,7 +3,7 @@ import type { LlmProvider } from './llm.ts';
 import { estimateCostUsd, estimateTokens } from './llm.ts';
 import type { Embedder } from './embed.ts';
 import type { SearchChunk } from './rag.ts';
-import { buildContext, resolveCitations, retrieve } from './rag.ts';
+import { buildContext, resolveCitations, retrieve, validateQuotes } from './rag.ts';
 import { buildSystemPrompt, historyToMessages } from './prompts.ts';
 import type { ToolDefinition } from './types.ts';
 
@@ -104,8 +104,10 @@ export async function runAgent(question: string, deps: AgentDeps, opts: RunOptio
   }
 
   const resolved = resolveCitations(res.content, retrieved);
+  // 原文摘录校验：逐字比对检索结果，编造的摘录整行剔除
+  const quoteChecked = validateQuotes(resolved.content, retrieved);
   return {
-    content: resolved.content,
+    content: quoteChecked.content,
     citations: resolved.citations,
     toolCalls: toolRecords,
     usage,

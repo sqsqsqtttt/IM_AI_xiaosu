@@ -27,4 +27,11 @@ describe('IM 文案去 Markdown 化', () => {
     expect(clean).toContain('5 天');
     expect(clean).toContain('📚 来源');
   });
+
+  it('原文摘录引用块转为「」括起', () => {
+    const reply = '答案是 5 天。\n> 入职满 1 年的员工，每年享有 5 天带薪年假。';
+    const clean = stripMarkdownForIM(reply);
+    expect(clean).toContain('「入职满 1 年的员工，每年享有 5 天带薪年假。」');
+    expect(clean).not.toContain('>');
+  });
 });

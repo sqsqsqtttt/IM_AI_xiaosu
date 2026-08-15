@@ -16,7 +16,23 @@ body {
 .md-body code { @apply bg-slate-100 text-rose-600 rounded px-1 py-0.5 text-[13px] font-mono; }
 .md-body pre { @apply bg-slate-900 text-slate-100 rounded-lg p-3 overflow-x-auto my-2 text-[13px]; }
 .md-body pre code { @apply bg-transparent text-inherit p-0; }
-.md-body blockquote { @apply border-l-4 border-slate-300 pl-3 text-slate-500 my-2; }
+
+/* 引用编号徽章（[C#] → 蓝色上标） */
+.md-body sup.cite-ref {
+  @apply inline-block text-[10px] font-semibold text-blue-700 bg-blue-100 border border-blue-200 rounded px-1 ml-0.5 align-super leading-none;
+}
+
+/* 原文摘录引用块：高亮醒目（答案中的 > 引用） */
+.md-body blockquote {
+  @apply relative bg-amber-50 border-amber-300 text-amber-900 rounded-r-lg pl-4 pr-3 py-1.5 my-2.5 leading-relaxed;
+  border-left-width: 4px;
+}
+.md-body blockquote::before {
+  content: "❝";
+  @apply absolute -top-2 text-2xl text-amber-400;
+  left: -2px;
+}
+
 .md-body table { @apply w-full border-collapse my-2 text-sm; }
 .md-body th, .md-body td { @apply border border-slate-200 px-2 py-1 text-left; }
 .md-body a { @apply text-blue-600 underline; }
