@@ -18,7 +18,8 @@ export async function createLogger(logDir: string): Promise<Logger> {
   });
   const pretty = pino.transport({
     target: 'pino-pretty',
-    options: { translateTime: 'SYS:HH:MM:ss', ignore: 'pid,hostname' },
+    // colorize 关闭：Windows 控制台渲染 ANSI 颜色会乱码，纯文本最稳妥
+    options: { translateTime: 'SYS:HH:MM:ss', ignore: 'pid,hostname', colorize: false },
   });
   return pino({ level: 'info' }, pino.multistream([{ stream: roll }, { stream: pretty }]));
 }

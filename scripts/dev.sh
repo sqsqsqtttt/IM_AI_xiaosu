@@ -3,6 +3,13 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# Windows 控制台兼容：切 UTF-8 代码页 + 关闭子进程彩色输出，避免 ANSI 转义码乱码
+chcp.com 65001 >/dev/null 2>&1 || true
+export NO_COLOR=1
+export FORCE_COLOR=0
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
+
 # 启动失败时：打印原因；若在交互窗口里运行，停留等待按键（避免闪退看不到报错）
 die() {
   echo "[dev] 启动失败: $*" >&2
