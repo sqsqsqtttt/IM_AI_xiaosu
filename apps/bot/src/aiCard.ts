@@ -15,11 +15,12 @@ import { getDingtalkAccessToken } from './token.ts';
 export const AI_CARD_TEMPLATE_ID = '382e4302-551d-4880-bf29-a30acfab2e71.schema';
 
 export const FLOW_STATUS = {
-  PROCESSING: 1,
-  INPUTING: 2,
-  FINISHED: 3,
-  EXECUTING: 4,
-  FAILED: 5,
+  /** 注意：钉钉要求 cardParamMap 的值必须是字符串，数字会报 MissingStringValue */
+  PROCESSING: '1',
+  INPUTING: '2',
+  FINISHED: '3',
+  EXECUTING: '4',
+  FAILED: '5',
 } as const;
 
 export interface CardTarget {
@@ -30,7 +31,7 @@ export interface CardTarget {
   senderStaffId: string;
 }
 
-function cardParamMap(title: string, content: string, flowStatus: number): Record<string, unknown> {
+function cardParamMap(title: string, content: string, flowStatus: string): Record<string, unknown> {
   return {
     msgTitle: title,
     msgContent: content,
@@ -89,7 +90,7 @@ export function buildFinishBody(
   outTrackId: string,
   title: string,
   content: string,
-  flowStatus: number,
+  flowStatus: string,
 ): Record<string, unknown> {
   return {
     outTrackId,
@@ -116,7 +117,11 @@ export interface AiCardClientOptions {
 export class AiCardClient {
   constructor(private opts: AiCardClientOptions) {}
 
-  private async request(method: 'GET' | 'POST' | 'PUT', path: string, body: unknown): Promise<void> {
+  private async request(
+    method: 'GET' | 'POST' | 'PUT',
+    path: string,
+    body: unknown,
+  ): Promise<unknown> {
     const token = await getDingtalkAccessToken(this.opts.appKey, this.opts.appSecret);
     const res = await fetch(`https://api.dingtalk.com${path}`, {
       method,
@@ -128,8 +133,30 @@ export class AiCardClient {
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(10_000),
     });
+    const text = await res.text();
+    let parsed: unknown = text;
+    try {
+      parsed = JSON.parse(text);
+    } catch {
+      // 非 JSON 保留原文
+    }
     if (!res.ok) {
-      throw new Error(`钉钉卡片接口 ${method} ${path} 失败: HTTP ${res.status} ${(await res.text()).slice(0, 200)}`);
+      throw new Error(`钉钉卡片接口 ${method} ${path} 失败: HTTP ${res.status} ${text.slice(0, 200)}`);
+    }
+    return parsed;
+  }
+
+  /** 校验投放响应：钉钉即使投放失败也返回 200，需检查 result 里的 success 标志。 */
+  private assertDeliverOk(resp: unknown): void {
+    const items: Array<{ success?: boolean; errorMsg?: string }> = [];
+    const r = resp as { result?: unknown };
+    if (Array.isArray(r.result)) {
+      items.push(...(r.result as Array<{ success?: boolean; errorMsg?: string }>));
+    } else if (r.result && typeof r.result === 'object' && Array.isArray((r.result as { deliverResults?: unknown[] }).deliverResults)) {
+      items.push(...((r.result as { deliverResults: Array<{ success?: boolean; errorMsg?: string }> }).deliverResults));
+    }
+    if (items.length > 0 && items.every((i) => i.success !== true)) {
+      throw new Error(`卡片投放失败: ${items.map((i) => i.errorMsg).filter(Boolean).join('; ') || '未知原因'}`);
     }
   }
 
@@ -137,7 +164,12 @@ export class AiCardClient {
   async start(target: CardTarget, title: string): Promise<AiCardSession> {
     const outTrackId = randomUUID();
     await this.request('POST', '/v1.0/card/instances', buildCreateBody(outTrackId, title));
-    await this.request('POST', '/v1.0/card/instances/deliver', buildDeliverBody(outTrackId, target));
+    const deliverResp = await this.request(
+      'POST',
+      '/v1.0/card/instances/deliver',
+      buildDeliverBody(outTrackId, target),
+    );
+    this.assertDeliverOk(deliverResp);
     this.opts.log.info({ outTrackId, conversationId: target.conversationId }, 'AI 卡片已创建并投放');
 
     return {
