@@ -190,20 +190,21 @@ export class AiCardClient {
         this.opts.log.info({ outTrackId }, 'AI 卡片已完成');
       },
       fail: async (content: string) => {
-        // 官方踩坑经验：内容必须经过流式通道才会渲染，直接发失败态只会得到空白卡片
+        // 官方内置 AI 卡片的 FAILED 状态不渲染正文（官方 SDK 的 fail() 也只传标题），
+        // 直接发失败态会把刚流式出来的文案清空 → 错误兜底也走流式 + 完成态展示。
         try {
           await this.request('PUT', '/v1.0/card/streaming', buildStreamingBody(outTrackId, content));
         } catch (e) {
-          this.opts.log.warn({ err: String(e) }, '卡片失败态流式更新失败');
+          this.opts.log.warn({ err: String(e) }, '卡片兜底流式更新失败');
         }
         try {
           await this.request(
             'PUT',
             '/v1.0/card/instances',
-            buildFinishBody(outTrackId, title, content, FLOW_STATUS.FAILED),
+            buildFinishBody(outTrackId, title, content, FLOW_STATUS.FINISHED),
           );
         } catch (e) {
-          this.opts.log.warn({ err: String(e) }, '卡片失败态更新也失败');
+          this.opts.log.warn({ err: String(e) }, '卡片兜底完成态更新失败');
         }
       },
     };
