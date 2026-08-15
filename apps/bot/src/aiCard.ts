@@ -190,6 +190,12 @@ export class AiCardClient {
         this.opts.log.info({ outTrackId }, 'AI 卡片已完成');
       },
       fail: async (content: string) => {
+        // 官方踩坑经验：内容必须经过流式通道才会渲染，直接发失败态只会得到空白卡片
+        try {
+          await this.request('PUT', '/v1.0/card/streaming', buildStreamingBody(outTrackId, content));
+        } catch (e) {
+          this.opts.log.warn({ err: String(e) }, '卡片失败态流式更新失败');
+        }
         try {
           await this.request(
             'PUT',
