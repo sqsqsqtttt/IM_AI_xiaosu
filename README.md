@@ -48,6 +48,16 @@
 
 ## 三、截图
 
+
+
+<img width="309" height="691" alt="image" src="https://github.com/user-attachments/assets/58cc729d-436f-4c29-b55c-12fbbb731401" />
+<img width="306" height="691" alt="image" src="https://github.com/user-attachments/assets/e2e1e10e-990a-4d7e-a7d1-645572c6f911" />
+<img width="308" height="691" alt="image" src="https://github.com/user-attachments/assets/1be99753-2d2a-47cc-92f8-20ac0dcef79b" />
+<img width="1270" height="696" alt="image" src="https://github.com/user-attachments/assets/25273468-b683-446e-acf4-e7d804996384" />
+<img width="1264" height="710" alt="image" src="https://github.com/user-attachments/assets/90b0f524-0411-4724-a61d-98ebe9b2f813" />
+<img width="1266" height="703" alt="image" src="https://github.com/user-attachments/assets/b70c144c-f6b4-40a6-8a04-822d9bd03190" />
+<img width="1268" height="694" alt="image" src="https://github.com/user-attachments/assets/f0814fb4-eff3-46ea-b18a-ab773f488f63" />
+
 <!--
   截图占位：请把运行截图放到本仓库的 docs/ 或 assets/ 目录，
   然后按下面格式引用（图片相对 README 的路径）：
